@@ -1,3 +1,5 @@
 package com.pbd.psi.models
 
-data class LoginRes()
+data class LoginRes(
+    val token: String
+)

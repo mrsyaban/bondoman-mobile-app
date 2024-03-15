@@ -1,6 +1,6 @@
 package com.pbd.psi.models
 
-data class AuthReq(
+data class AuthRes(
     val nim : String,
     val iat : String,
     val exp : String
