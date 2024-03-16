@@ -1,8 +1,11 @@
 package com.pbd.psi
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -32,11 +35,39 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+
+        if(!isOnline(this)){
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         isLogin()
 
         binding.btnLogin.setOnClickListener {
             login()
         }
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
     }
     private fun isLogin(){
         val token = sharedpreferences.getString(TOKEN, "")
@@ -59,13 +90,13 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Email and password cannot be empty", Toast.LENGTH_SHORT).show()
             return
         }
-        val loginReq = LoginReq(email, password)
+        val loginReq = LoginReq("13521099@std.stei.itb.ac.id", "password_13521099")
         ApiConfig.api.login(loginReq).enqueue(object : Callback<LoginRes> {
             override fun onResponse(call: Call<LoginRes>, response: Response<LoginRes>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@LoginActivity, "Login success", Toast.LENGTH_SHORT).show()
                     val token = response.body()?.token
-                    editor.putString("TOKEN", token)
+                    editor.putString(TOKEN, token)
                     editor.apply()
                     val intentRecycle = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intentRecycle)
