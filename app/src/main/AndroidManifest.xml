@@ -30,6 +30,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
+        <service android:name=".services.BackgroundService"/>
     </application>
 
 </manifest>
