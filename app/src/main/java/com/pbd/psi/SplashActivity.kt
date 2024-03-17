@@ -1,5 +1,6 @@
 package com.pbd.psi
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.pbd.psi.databinding.ActivitySplashBinding
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashBinding
     private lateinit var sunAnim : Animation
@@ -47,6 +49,5 @@ class SplashActivity : AppCompatActivity() {
                 finish()
             }, 1000)
         }, 1500)
-
     }
 }
