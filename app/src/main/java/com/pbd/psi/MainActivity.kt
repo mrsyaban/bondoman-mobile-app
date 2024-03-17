@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
         binding.textEmail.text = sharedpreferences.getString(TOKEN, "default")
         binding.textToken.text = sharedpreferences.getString(EMAIL, "default")
 
