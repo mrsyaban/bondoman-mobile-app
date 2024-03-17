@@ -6,5 +6,6 @@
     <color name="colorAccentLight">#FFF455</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="whitesmoke">#FFF5F5F5</color>
+    <color name="navbar_color">#D9D9D9</color>
+>>>>>>> Stashed changes
 </resources>

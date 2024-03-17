@@ -24,7 +24,6 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var cloud2 : ImageView
     private lateinit var title : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding= ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)

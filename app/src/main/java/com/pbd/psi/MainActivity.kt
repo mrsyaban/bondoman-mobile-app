@@ -1,12 +1,21 @@
 package com.pbd.psi
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.psi.databinding.ActivityMainBinding
+import com.pbd.psi.databinding.FragmentSettingsBinding
 import com.pbd.psi.services.BackgroundService
+
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -17,20 +26,35 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedpreferences: SharedPreferences
+    private lateinit var settingsBinding: FragmentSettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        settingsBinding = FragmentSettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
-        binding.textEmail.text = sharedpreferences.getString(TOKEN, "default")
-        binding.textToken.text = sharedpreferences.getString(EMAIL, "default")
+        settingsBinding.textEmail.text = sharedpreferences.getString(TOKEN, "default")
+        settingsBinding.textToken.text = sharedpreferences.getString(EMAIL, "default")
+
+        // bottom navbar
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+        bottomNavigationView.setupWithNavController(navController)
+
+//        setSupportActionBar(findViewById(R.id.toolbar))
+//        supportActionBar?.setDisplayHomeAsUpEnabled(false)  // Hide back button
+//        supportActionBar?.setDisplayShowHomeEnabled(false)  // Hide logo
+//        supportActionBar?.setDisplayShowTitleEnabled(true)  // Show title only
+//        val appBarConfiguration = AppBarConfiguration(navController.graph)
+//        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
 
-        binding.btnLogout.setOnClickListener {
+        settingsBinding.btnLogout.setOnClickListener {
             with(sharedpreferences.edit()) {
                 clear()
                 apply()
@@ -41,4 +65,11 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.bottom_nav_menu, menu)
+        return true
+    }
+
+
 }
