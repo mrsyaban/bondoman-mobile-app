@@ -15,6 +15,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.psi.databinding.ActivityMainBinding
 import com.pbd.psi.databinding.FragmentSettingsBinding
 import com.pbd.psi.services.BackgroundService
+import android.content.res.ColorStateList
+
+import android.graphics.Color
+
+
+
 
 
 class MainActivity : AppCompatActivity() {

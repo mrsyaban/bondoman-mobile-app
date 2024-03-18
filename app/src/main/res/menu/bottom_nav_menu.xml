@@ -3,25 +3,25 @@
     <item
         android:id="@+id/transactionFragment"
         android:title="@string/navbar_transaction"
-        android:icon="@drawable/baseline_receipt_24"/>
+        android:icon="@drawable/navbar_wallet"/>
 
     <item
         android:id="@+id/scanFragment"
         android:title="@string/navbar_scan"
-        android:icon="@drawable/baseline_document_scanner_24"/>
+        android:icon="@drawable/navbar_scan"/>
 
     <item
         android:id="@+id/twibbonFragment"
         android:title="@string/navbar_twibbon"
-        android:icon="@drawable/baseline_camera_24" />
+        android:icon="@drawable/navbar_twibbon" />
 
     <item
         android:id="@+id/graphFragment"
         android:title="@string/navbar_graph"
-        android:icon="@drawable/baseline_pie_chart_24"/>
+        android:icon="@drawable/navbar_chart"/>
 
     <item
         android:id="@+id/settingsFragment"
         android:title="@string/navbar_settings"
-        android:icon="@drawable/baseline_settings_24" />
+        android:icon="@drawable/navbar_settings" />
 </menu>
