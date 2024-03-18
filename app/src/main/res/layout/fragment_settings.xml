@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/how_would_you_like_to_do"
         android:textSize="30sp"
-        android:fontFamily="@font/montserrat3"
+        android:fontFamily="@font/montserrat"
         android:textStyle="bold"
         android:textColor="@color/white"
         />
