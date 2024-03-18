@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
-        settingsBinding.textEmail.text = sharedpreferences.getString(TOKEN, "default")
-        settingsBinding.textToken.text = sharedpreferences.getString(EMAIL, "default")
 
         // bottom navbar
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
 
-        settingsBinding.btnLogout.setOnClickListener {
+        settingsBinding.btnKeluar.setOnClickListener {
             with(sharedpreferences.edit()) {
                 clear()
                 apply()

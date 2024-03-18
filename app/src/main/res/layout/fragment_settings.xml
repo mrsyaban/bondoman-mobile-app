@@ -4,29 +4,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.settings.SettingsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/text_email"
+    tools:context=".ui.settings.SettingsFragment"
+    android:paddingHorizontal="24dp"
+    android:background="@color/lightBlue">
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
-
-    <TextView
-        android:id="@+id/text_token"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:src="@drawable/logo"
+        android:contentDescription="@string/logo"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/settings_fragment" />
+        android:text="@string/how_would_you_like_to_do"
+        android:textSize="30sp"
+        android:fontFamily="@font/montserrat3"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        />
 
     <Button
-        android:id="@+id/btn_logout"
+        android:id="@+id/btn_download_history"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/logout" />
+        android:layout_height="80dp"
+        android:text="Download History"
+        android:theme="@style/Button.LightBlue"/>
+
+
+    <Button
+        android:id="@+id/btn_upload_history"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="Upload History"
+        android:theme="@style/Button.LightBlue"/>
+
+    <Button
+        android:id="@+id/btn_keluar"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="Keluar"
+        android:theme="@style/Button.LightBlue"/>
+
 
 </LinearLayout>

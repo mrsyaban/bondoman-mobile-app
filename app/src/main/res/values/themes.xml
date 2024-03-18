@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.PSI" parent="Base.Theme.PSI" />
+    <style name="Button.LightBlue" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/fragmentBlue</item>
+    </style>
 </resources>

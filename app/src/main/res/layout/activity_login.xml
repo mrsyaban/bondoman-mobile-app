@@ -3,94 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Masuk"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Email"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edt_login_email"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/white"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/edt_login_pass"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/white"
-            android:inputType="textPassword"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"/>
-
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/lightGreen"
-            android:text="Masuk"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
+    android:background="@drawable/background_login"
+    android:paddingHorizontal="20dp"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/edt_login_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounder_corner_edit_text"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black"
+            android:hint="Input your name"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="10dp"/>
 
-        <TextView
+        <EditText
+            android:id="@+id/edt_login_pass"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/rounder_corner_edit_text"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:hint="Type your password"
+            android:paddingHorizontal="10dp"
+            android:layout_marginBottom="24dp"
+            />
+
+
+        <Button
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BondoMan"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:fontFamily="@font/kemasyuran_jawa"/>
-
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="LOGIN"
+            android:background="@drawable/rounder_corner_submit"
+            android:textSize="20sp"
+            android:layout_marginBottom="24dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Copyright PSI @2024"
             android:textAlignment="center"
-            android:textSize="10sp"
-            android:textColor="@color/white"/>
+            android:textSize="12dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"/>
     </LinearLayout>
 
 
