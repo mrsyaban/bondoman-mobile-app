@@ -1,14 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryBlack"
     tools:context=".ui.twibbon.TwibbonFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/twibbon_fragment" />
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="411dp"
+        android:layout_height="411dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/twibbon" />
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/captureButton"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center_horizontal"
+        android:background="@drawable/capture_button"
+        android:layout_marginTop="10dp"
+        android:layout_width="142dip"
+        android:layout_height="52dip"
+        android:contentDescription="@string/capture"
+        app:layout_constraintEnd_toStartOf="@id/retakeButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/twibbonCommand" />
+
+    <ImageButton
+        android:id="@+id/retakeButton"
+        android:fontFamily="@font/montserrat"
+        android:gravity="center_horizontal"
+        android:background="@drawable/retake_button"
+        android:layout_marginTop="10dp"
+        android:layout_width="142dip"
+        android:layout_height="52dip"
+        android:contentDescription="@string/retake"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/captureButton"
+        app:layout_constraintTop_toBottomOf="@+id/twibbonCommand" />
+
+    <TextView
+        android:id="@+id/twibbonCommand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/twibbon_command"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+        app:layout_constraintVertical_bias="0.49" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

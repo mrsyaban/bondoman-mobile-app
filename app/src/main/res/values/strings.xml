@@ -20,9 +20,12 @@
     <string name="how_would_you_like_to_do">How would you like to do?</string>
     <string name="logo">Logo</string>
 
-
     <!--    Scan Description-->
     <string name="error_scan">Unable to detect</string>
     <string name="upload_image">Upload Image Icon</string>
 
+    <!--    Twibbon Description-->
+    <string name="capture">Capture</string>
+    <string name="retake">Retake</string>
+    <string name="twibbon_command">Put your face inside the twibbon</string>
 </resources>
