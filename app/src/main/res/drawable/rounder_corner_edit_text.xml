@@ -2,5 +2,4 @@
     android:shape="rectangle">
     <corners android:radius="15dp" /> <!-- Adjust the radius as per your preference -->
     <solid android:color="@color/white" /> <!-- Set your desired background color here -->
-
 </shape>
