@@ -10,12 +10,9 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="411dp"
-        android:layout_height="411dp"
+        android:layout_width="285dp"
+        android:layout_height="285dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintVertical_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,11 +30,12 @@
         android:gravity="center_horizontal"
         android:background="@drawable/capture_button"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
         android:layout_width="142dip"
         android:layout_height="52dip"
         android:contentDescription="@string/capture"
         app:layout_constraintEnd_toStartOf="@id/retakeButton"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/twibbonCommand" />
 
     <ImageButton
@@ -46,6 +44,7 @@
         android:gravity="center_horizontal"
         android:background="@drawable/retake_button"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
         android:layout_width="142dip"
         android:layout_height="52dip"
         android:contentDescription="@string/retake"
@@ -57,16 +56,15 @@
         android:id="@+id/twibbonCommand"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="32dp"
         android:text="@string/twibbon_command"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:layout_marginBottom="120dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintStart_toEndOf="@id/frameLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
