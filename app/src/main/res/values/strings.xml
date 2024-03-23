@@ -31,4 +31,11 @@
     <string name="retake">Retake</string>
     <string name="change">Change</string>
     <string name="twibbon_command">Put your face inside the twibbon</string>
+
+    <!--    Transaction-->
+    <string name="transaction_header">Transaksi</string>
+    <string name="title_hint">Title</string>
+    <string name="amount_hint">Amount</string>
+
+
 </resources>
