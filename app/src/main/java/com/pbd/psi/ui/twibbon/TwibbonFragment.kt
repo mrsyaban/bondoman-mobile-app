@@ -1,60 +1,115 @@
 package com.pbd.psi.ui.twibbon
 
+import android.Manifest
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.ImageCapture
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.pbd.psi.R
+import com.pbd.psi.databinding.FragmentTwibbonBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TwibbonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TwibbonFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentTwibbonBinding? = null
+    private val binding get() = _binding!!
+
+    private var imageCapture: ImageCapture? = null
+
+    private var previewFrozen: Boolean = false
+    private var cameraProvider: ProcessCameraProvider? = null
+
+    private val twibbonDrawable = arrayOf(
+        R.drawable.twibbon1,
+        R.drawable.twibbon2,
+        R.drawable.twibbon3
+    )
+
+    private var currentTwibbonIndex = 0
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_twibbon, container, false)
+    ): View {
+        _binding = FragmentTwibbonBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        val permissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                startCamera()
+            }
+        }
+
+        permissionLauncher.launch(Manifest.permission.CAMERA)
+
+        imageCapture = ImageCapture.Builder().build()
+
+        binding.cameraButton?.setOnClickListener {
+            previewMask()
+        }
+
+        binding.changeButton?.setOnClickListener{
+            changeTwibbon()
+        }
+
+        return root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TwibbonFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TwibbonFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun startCamera() {
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        cameraProviderFuture.addListener({
+
+            cameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder().build().also {
+                    mPreview ->
+                if (!previewFrozen) {
+                    mPreview.setSurfaceProvider(binding.previewView?.surfaceProvider)
+                } else {
+                    mPreview.setSurfaceProvider(null)
                 }
             }
+
+            imageCapture = ImageCapture.Builder().build()
+
+            val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+
+            try {
+                cameraProvider?.unbindAll()
+                cameraProvider?.bindToLifecycle(this, cameraSelector, preview!!)
+            } catch (e: Exception) {
+                Log.d("CameraX", "startCamera Failed:", e)
+            }
+        }, ContextCompat.getMainExecutor(requireContext()))
+    }
+
+    private fun previewMask() {
+        previewFrozen = !previewFrozen
+        if (!previewFrozen) {
+            binding.cameraButton?.setBackgroundResource(R.drawable.capture_button)
+        } else {
+            binding.cameraButton?.setBackgroundResource(R.drawable.retake_button)
+        }
+        startCamera()
+    }
+
+    private fun changeTwibbon(){
+        currentTwibbonIndex = (currentTwibbonIndex + 1) % twibbonDrawable.size
+        binding.imageView3.setImageResource(twibbonDrawable[currentTwibbonIndex])
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

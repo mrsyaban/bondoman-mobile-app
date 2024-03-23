@@ -29,5 +29,6 @@
     <string name="twibbon_header">Twibbon</string>
     <string name="capture">Capture</string>
     <string name="retake">Retake</string>
+    <string name="change">Change</string>
     <string name="twibbon_command">Put your face inside the twibbon</string>
 </resources>

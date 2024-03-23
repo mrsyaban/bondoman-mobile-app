@@ -9,7 +9,7 @@
     tools:context=".ui.twibbon.TwibbonFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/scan_header"
+        android:id="@+id/twibbon_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryBlack"
@@ -18,11 +18,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/scan_header_text"
+                android:id="@+id/twibbon_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="@string/scan_header"
+                android:text="@string/twibbon_header"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:layout_marginVertical="8dp"
@@ -37,22 +37,28 @@
 
     <FrameLayout
         android:id="@+id/frameLayout"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        android:layout_marginLeft="40dp"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scan_header">
+        app:layout_constraintTop_toBottomOf="@id/twibbon_header">
+
+        <androidx.camera.view.PreviewView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="240dp" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/twibbon" />
+            android:src="@drawable/twibbon1" />
 
     </FrameLayout>
 
     <ImageButton
-        android:id="@+id/captureButton"
+        android:id="@+id/cameraButton"
         android:fontFamily="@font/montserrat"
         android:gravity="center_horizontal"
         android:background="@drawable/capture_button"
@@ -61,22 +67,22 @@
         android:layout_width="142dip"
         android:layout_height="52dip"
         android:contentDescription="@string/capture"
-        app:layout_constraintEnd_toStartOf="@id/retakeButton"
+        app:layout_constraintEnd_toStartOf="@id/changeButton"
         app:layout_constraintStart_toEndOf="@id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/twibbonCommand" />
 
     <ImageButton
-        android:id="@+id/retakeButton"
+        android:id="@+id/changeButton"
         android:fontFamily="@font/montserrat"
         android:gravity="center_horizontal"
-        android:background="@drawable/retake_button"
+        android:background="@drawable/change_button"
         android:layout_marginTop="10dp"
         android:layout_marginRight="40dp"
         android:layout_width="142dip"
         android:layout_height="52dip"
-        android:contentDescription="@string/retake"
+        android:contentDescription="@string/change"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/captureButton"
+        app:layout_constraintStart_toEndOf="@id/cameraButton"
         app:layout_constraintTop_toBottomOf="@+id/twibbonCommand" />
 
     <TextView
@@ -87,7 +93,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/frameLayout"
         app:layout_constraintTop_toTopOf="parent"
