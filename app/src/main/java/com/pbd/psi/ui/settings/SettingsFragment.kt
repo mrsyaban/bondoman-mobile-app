@@ -37,6 +37,21 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
             requireActivity().finish()
         }
+        binding.btnUploadHistory.setOnClickListener {
+            val email = sharedpreferences.getString(EMAIL, "")
+
+            val intentEmail = Intent(Intent.ACTION_SEND)
+            intentEmail.type = "text/plain"
+
+            intentEmail.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+
+            intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Upload History")
+
+            intentEmail.putExtra(Intent.EXTRA_TEXT, "Berikut ini laporan hasil transaksi akun "+email+" : \n")
+
+            startActivity(Intent.createChooser(intentEmail, "Send Email"))
+        }
+
 
         return binding.root
     }
