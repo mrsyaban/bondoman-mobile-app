@@ -19,10 +19,6 @@ import android.content.res.ColorStateList
 
 import android.graphics.Color
 
-
-
-
-
 class MainActivity : AppCompatActivity() {
     companion object {
         const val SHARED_PREFS = "shared_prefs"
