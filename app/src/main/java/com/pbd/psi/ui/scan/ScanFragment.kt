@@ -2,14 +2,11 @@ package com.pbd.psi.ui.scan
 
 import android.Manifest
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
@@ -22,6 +19,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.pbd.psi.databinding.FragmentScanBinding
 
@@ -65,6 +63,8 @@ class ScanFragment : Fragment() {
         permissionLauncher.launch(Manifest.permission.CAMERA)
 
         imageCapture = ImageCapture.Builder().build()
+        binding.sendButton?.isVisible = false
+        binding.retakeButton?.isVisible = false
 
         binding.scanButton?.setOnClickListener {
             previewMask()
@@ -72,6 +72,10 @@ class ScanFragment : Fragment() {
 
         binding.uploadImage?.setOnClickListener{
             openFileExplorer()
+        }
+
+        binding.retakeButton?.setOnClickListener{
+            previewMask()
         }
 
         return root
@@ -86,6 +90,7 @@ class ScanFragment : Fragment() {
             val preview = Preview.Builder().build().also {
                     mPreview ->
                 if (!previewFrozen) {
+                    binding.scanView?.foreground = null
                     mPreview.setSurfaceProvider(binding.scanView?.surfaceProvider)
                 } else {
                     mPreview.setSurfaceProvider(null)
@@ -106,29 +111,19 @@ class ScanFragment : Fragment() {
     }
 
     private fun previewMask() {
-        binding.scanButton?.isEnabled = false
         previewFrozen = !previewFrozen
+        if (!previewFrozen) {
+            binding.scanButton?.isVisible= true
+            binding.uploadImage?.isVisible = true
+            binding.sendButton?.isVisible  = false
+            binding.retakeButton?.isVisible = false
+        } else {
+            binding.scanButton?.isVisible= false
+            binding.uploadImage?.isVisible = false
+            binding.sendButton?.isVisible  = true
+            binding.retakeButton?.isVisible = true
+        }
         startCamera()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            // TO DO: Add  modal
-            val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-            builder
-                .setMessage("Do you want to retake the picture?")
-                .setPositiveButton("Yes") { dialog, which ->
-                    dialog.dismiss()
-                    binding.scanButton?.isEnabled = true
-                    previewFrozen = !previewFrozen
-                    startCamera()
-                }
-                .setNegativeButton("No") { dialog, which ->
-                    // TO DO : send a froze preview to the server as img form data
-                    dialog.dismiss()
-                }
-
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        }, 1000)
     }
 
     private fun openFileExplorer() {
@@ -142,7 +137,8 @@ class ScanFragment : Fragment() {
                 val bitmap = BitmapFactory.decodeStream(inputStream)
                 if (bitmap != null) {
                     val drawable = BitmapDrawable(resources, bitmap)
-                    binding.scanView?.background = drawable
+                    binding.scanView?.foreground = drawable
+                    previewMask()
                 } else {
                     Toast.makeText(requireContext(), "Failed to decode image", Toast.LENGTH_SHORT).show()
                     Log.e("ScanFragment", "Failed to decode image")
