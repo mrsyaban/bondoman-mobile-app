@@ -41,7 +41,7 @@
     <string name="expense">Pengeluaran</string>
     <string name="all">Semua</string>
 
-
-
+    <!--    Settings-->
+    <string name="setting_header">Setting</string>
 
 </resources>
