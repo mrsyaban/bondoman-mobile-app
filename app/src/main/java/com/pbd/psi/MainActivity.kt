@@ -19,10 +19,6 @@ import android.content.res.ColorStateList
 
 import android.graphics.Color
 
-
-
-
-
 class MainActivity : AppCompatActivity() {
     companion object {
         const val SHARED_PREFS = "shared_prefs"
@@ -47,13 +43,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
-
-//        setSupportActionBar(findViewById(R.id.toolbar))
-//        supportActionBar?.setDisplayHomeAsUpEnabled(false)  // Hide back button
-//        supportActionBar?.setDisplayShowHomeEnabled(false)  // Hide logo
-//        supportActionBar?.setDisplayShowTitleEnabled(true)  // Show title only
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
-//        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
