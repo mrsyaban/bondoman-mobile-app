@@ -2,7 +2,9 @@ package com.pbd.psi.ui.scan
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -21,7 +23,17 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.pbd.psi.LoginActivity
+import com.pbd.psi.api.ApiConfig
 import com.pbd.psi.databinding.FragmentScanBinding
+import com.pbd.psi.models.UploadRes
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.io.ByteArrayOutputStream
 
 class ScanFragment : Fragment() {
 
@@ -76,6 +88,10 @@ class ScanFragment : Fragment() {
 
         binding.retakeButton?.setOnClickListener{
             previewMask()
+        }
+
+        binding.sendButton?.setOnClickListener{
+            uploadImage()
         }
 
         return root
@@ -150,6 +166,50 @@ class ScanFragment : Fragment() {
         }
     }
 
+    private fun uploadImage() {
+        var bitmap = (binding.scanView?.foreground as? BitmapDrawable)?.bitmap
+        if (bitmap == null) {
+            bitmap = (binding.scanView?.surfaceProvider as? BitmapDrawable)?.bitmap
+        }
+        val stream = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val byteArray = stream.toByteArray()
+        val requestBody = byteArray.toRequestBody("image/jpeg".toMediaTypeOrNull())
+
+        val token = requireActivity().getSharedPreferences(LoginActivity.SHARED_PREFS, Context.MODE_PRIVATE)
+            .getString(LoginActivity.TOKEN, "")
+
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Token not found. Please log in again.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val imagePart = MultipartBody.Part.createFormData("file", "image.jpg", requestBody)
+
+        val call = ApiConfig.api.uploadImage("Bearer $token", imagePart)
+
+        call.enqueue(object : Callback<UploadRes> {
+            override fun onResponse(call: Call<UploadRes>, response: Response<UploadRes>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        val responseString = responseBody.toString()
+                        Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Image uploaded successfully!", Toast.LENGTH_SHORT).show()
+                    }
+                    previewMask()
+                } else {
+                    Toast.makeText(requireContext(), "Failed to upload image. Error code: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<UploadRes>, t: Throwable) {
+                Log.e("UploadError", "Failed to upload image", t)
+                Toast.makeText(requireContext(), "Network error occurred. Please try again later.", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -4,20 +4,13 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.psi.databinding.ActivityMainBinding
 import com.pbd.psi.databinding.FragmentSettingsBinding
 import com.pbd.psi.services.BackgroundService
-import android.content.res.ColorStateList
-
-import android.graphics.Color
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -63,6 +56,4 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.bottom_nav_menu, menu)
         return true
     }
-
-
 }

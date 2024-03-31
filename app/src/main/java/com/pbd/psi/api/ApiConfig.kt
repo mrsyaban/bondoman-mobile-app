@@ -15,4 +15,8 @@ object ApiConfig {
     val api: ApiService by lazy {
         retrofit.create(ApiService::class.java)
     }
+
+    fun getApiService(): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
 }
