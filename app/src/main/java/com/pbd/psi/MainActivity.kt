@@ -39,17 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
-
-        settingsBinding.btnKeluar.setOnClickListener {
-            with(sharedpreferences.edit()) {
-                clear()
-                apply()
-            }
-            val intentLogin = Intent(this@MainActivity, LoginActivity::class.java)
-            startActivity(intentLogin)
-            stopService(serviceIntent)
-            finish()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

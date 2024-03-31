@@ -6,19 +6,20 @@ import com.pbd.psi.models.LoginRes
 import com.pbd.psi.models.UploadRes
 import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiService {
 
     @POST("/api/auth/login")
-    fun login(
+    suspend fun login(
         @Body request: LoginReq
-    ): Call<LoginRes>
+    ): Response<LoginRes>
 
     @POST("api/auth/token")
-    fun auth(
+    suspend fun auth(
         @Header("Authorization") authHeader: String
-    ): Call<AuthRes>
+    ): Response<AuthRes>
 
     @Multipart
     @POST("/api/bill/upload")
