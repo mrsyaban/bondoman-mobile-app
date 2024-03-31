@@ -44,13 +44,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         bottomNavigationView.setupWithNavController(navController)
 
-//        setSupportActionBar(findViewById(R.id.toolbar))
-//        supportActionBar?.setDisplayHomeAsUpEnabled(false)  // Hide back button
-//        supportActionBar?.setDisplayShowHomeEnabled(false)  // Hide logo
-//        supportActionBar?.setDisplayShowTitleEnabled(true)  // Show title only
-//        val appBarConfiguration = AppBarConfiguration(navController.graph)
-//        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
 

@@ -8,8 +8,12 @@ class TransactionRepository(private val database: AppDatabase) {
 
     val transactionList: LiveData<List<TransactionEntity>> = database.transactionDao().getAllTrans()
 
-    suspend fun insertTransaction(transaction: TransactionEntity) {
-        database.transactionDao().insertTransaction(transaction)
+    fun getTransById(id: Int){
+        database.transactionDao().getTransById(id)
+    }
+
+    suspend fun addTransaction(transaction: TransactionEntity) {
+        database.transactionDao().addTransaction(transaction)
     }
 
     suspend fun updateTransaction(transaction: TransactionEntity) {

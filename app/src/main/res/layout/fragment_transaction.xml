@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +9,7 @@
     tools:context=".ui.transaction.TransactionFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/twibbon_header"
+        android:id="@+id/transaction_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryBlack"
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/twibbon_header_text"
+                android:id="@+id/transaction_header_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -34,29 +34,175 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transaction_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_legend"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_header">
+
+        <RelativeLayout
+            android:id="@+id/balance_info"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintEnd_toStartOf="@+id/add_button"
+            app:layout_constraintStart_toStartOf="@id/transaction_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
         >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/balance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_balance" />
+
+            <TextView
+                android:id="@+id/balance_nominal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/transaction_fragment"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textSize="25sp"
-                android:text="@string/transaction_fragment"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
+                android:layout_below="@+id/balance_label"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="@string/retake"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_info"
+            app:layout_constraintEnd_toEndOf="@id/transaction_info"
+            app:layout_constraintStart_toEndOf="@+id/balance_info"
+            app:layout_constraintTop_toTopOf="@id/transaction_info" />
 
-        </LinearLayout>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transaction_legend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_info">
+
+        <RelativeLayout
+            android:id="@+id/income"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="@id/transaction_legend"
+            app:layout_constraintEnd_toStartOf="@+id/expense">
+
+            <ImageView
+                android:id="@+id/income_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/income"
+                android:src="@drawable/income_icon"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:id="@+id/income_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/income"
+                android:layout_below="@id/income_icon"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/all_flow"
+            app:layout_constraintStart_toEndOf="@id/income"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/expense_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/expense"
+                android:src="@drawable/outcome_icon"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:id="@+id/expense_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/expense"
+                android:layout_below="@id/expense_icon"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/all_flow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@id/transaction_legend"
+            app:layout_constraintEnd_toEndOf="@id/transaction_legend"
+            app:layout_constraintStart_toEndOf="@id/expense"
+            app:layout_constraintTop_toTopOf="@id/transaction_legend">
+
+            <ImageView
+                android:id="@+id/all_flow_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/income"
+                android:src="@drawable/upload"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:id="@+id/all_flow_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/all"
+                android:layout_below="@id/all_flow_icon"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
 
 
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/transaction_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/primaryDarker"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transaction_legend">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,10 +7,13 @@ interface TransactionDao {
     @Query("SELECT * FROM `transaction`")
     fun getAllTrans(): LiveData<List<TransactionEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.FAIL)
-    suspend fun insertTransaction(trans: TransactionEntity)
+    @Query("SELECT * FROM `transaction` WHERE id=:id")
+    fun getTransById(id: Int): TransactionEntity
 
-    @Update(onConflict = OnConflictStrategy.FAIL)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    suspend fun addTransaction(trans: TransactionEntity)
+
+    @Update(onConflict = OnConflictStrategy.ABORT)
     suspend fun updateTransaction(trans: TransactionEntity)
 
     @Delete
