@@ -1,13 +1,15 @@
-package com.pbd.psi.ui.twibbon
+package com.pbd.psi.ui.scan
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.pbd.psi.repository.ScanRepository
+import com.pbd.psi.room.TransactionEntity
+import kotlinx.coroutines.launch
 
-class ScanViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is Scan Fragment"
+class ScanViewModel(private val repository: ScanRepository) : ViewModel() {
+    fun addTransaction(transactionEntity: TransactionEntity) {
+        viewModelScope.launch {
+            repository.addTransaction(transactionEntity)
+        }
     }
-    val text: LiveData<String> = _text
 }

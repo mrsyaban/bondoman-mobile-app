@@ -27,9 +27,13 @@ import com.pbd.psi.LoginActivity
 import com.pbd.psi.api.ApiConfig
 import com.pbd.psi.databinding.FragmentScanBinding
 import com.pbd.psi.models.UploadRes
+import com.pbd.psi.repository.ScanRepository
+import com.pbd.psi.room.AppDatabase
+import com.pbd.psi.room.TransactionEntity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,6 +48,8 @@ class ScanFragment : Fragment() {
 
     private var previewFrozen: Boolean = false
     private var cameraProvider: ProcessCameraProvider? = null
+
+    private lateinit var viewModel: ScanViewModel
 
     private val filePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -93,6 +99,10 @@ class ScanFragment : Fragment() {
         binding.sendButton?.setOnClickListener{
             uploadImage()
         }
+
+        val appDatabase = AppDatabase.getDatabase(requireContext())
+        val repository = ScanRepository(appDatabase)
+        val viewModel = ScanViewModel(repository)
 
         return root
     }
@@ -195,6 +205,22 @@ class ScanFragment : Fragment() {
                     if (responseBody != null) {
                         val responseString = responseBody.toString()
                         Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
+                        try {
+                            val scanData = parseScanData(responseString)
+                            for (item in scanData.items) {
+                                val transactionEntity = TransactionEntity(
+                                    name = item.name,
+                                    price = item.price.toInt() * item.qty,
+                                    category = 0,
+                                    longitude = 0.0,
+                                    latitude = 0.0,
+                                )
+                                viewModel.addTransaction(transactionEntity)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("UploadError", "Error parsing response JSON", e)
+                            Toast.makeText(requireContext(), "Error parsing response JSON", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(requireContext(), "Image uploaded successfully!", Toast.LENGTH_SHORT).show()
                     }
@@ -214,5 +240,26 @@ class ScanFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private data class Item(val name: String, val qty: Int, val price: Double)
+    private data class Items(val items: List<Item>)
+
+    private fun parseScanData(responseJson: String): Items {
+        val jsonObject = JSONObject(responseJson)
+        val itemsJson = jsonObject.getJSONObject("items").getJSONArray("items")
+
+        val itemsList = mutableListOf<Item>()
+
+        for (i in 0 until itemsJson.length()) {
+            val itemJson = itemsJson.getJSONObject(i)
+            val name = itemJson.getString("name")
+            val qty = itemJson.getInt("qty")
+            val price = itemJson.getDouble("price")
+            val item = Item(name, qty, price)
+            itemsList.add(item)
+        }
+
+        return Items(itemsList)
     }
 }
