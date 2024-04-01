@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.pbd.psi.LoginActivity
 import com.pbd.psi.databinding.FragmentSettingsBinding
 
@@ -34,6 +35,8 @@ class SettingsFragment : Fragment() {
             editor.clear()
             editor.apply()
             val intent = Intent(requireActivity(), LoginActivity::class.java)
+            Toast.makeText(requireActivity(), sharedpreferences.getString(EMAIL,""), Toast.LENGTH_SHORT).show()
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             requireActivity().finish()
         }
@@ -48,8 +51,7 @@ class SettingsFragment : Fragment() {
             startActivity(Intent.createChooser(intentEmail, "Send Email"))
         }
         binding.btnSettings.setOnClickListener {
-            // apply brodcast receiver
-
+            // apply broadcast receiver
         }
 
         return binding.root

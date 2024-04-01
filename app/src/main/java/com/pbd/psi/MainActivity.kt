@@ -45,4 +45,11 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.bottom_nav_menu, menu)
         return true
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val serviceIntent = Intent(this, BackgroundService::class.java)
+        stopService(serviceIntent)
+    }
+
 }

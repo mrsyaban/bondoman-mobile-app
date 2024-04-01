@@ -55,7 +55,8 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is BaseResponse.Error -> {
-                    processError(it.msg)
+                    processError()
+                    stopLoading()
                 }
                 else -> {
                     stopLoading()
@@ -73,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
         val token = data?.token
         val editor = sharedpreferences.edit()
         editor.putString(TOKEN, token)
+        editor.putString(EMAIL, binding.edtLoginEmail.text.toString())
         editor.apply()
         val intentRecycle = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intentRecycle)
@@ -82,6 +84,10 @@ class LoginActivity : AppCompatActivity() {
     private fun doLogin(){
         val email = binding.edtLoginEmail.text.toString()
         val password = binding.edtLoginPass.text.toString()
+        if(email.isEmpty() || password.isEmpty()){
+            Toast.makeText(this, "Email and password must be filled", Toast.LENGTH_SHORT).show()
+            return
+        }
         viewModel.loginUser(email, password)
     }
 
@@ -121,8 +127,8 @@ class LoginActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
     }
 
-    private fun processError(msg: String?){
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    private fun processError(){
+        Toast.makeText(this, "Incorrect email or password.", Toast.LENGTH_SHORT).show()
     }
 
 }

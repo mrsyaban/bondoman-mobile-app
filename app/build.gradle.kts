@@ -86,4 +86,5 @@ dependencies {
     //chart
     implementation("androidx.multidex:multidex:2.0.1")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }
