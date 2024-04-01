@@ -15,6 +15,7 @@
     <color name="primaryBlueLight">#447CF8</color>
     <color name="fragmentBlue">#898989</color>
     <color name="grey">#888888</color>
+    <color name="textGrey">#8E949A</color>
     <color name="darkRed">#930000</color>
     <color name="red">#DD0000</color>
     <color name="lightRed">#DE7979</color>

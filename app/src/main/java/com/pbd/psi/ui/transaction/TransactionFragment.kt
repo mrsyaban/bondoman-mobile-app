@@ -1,10 +1,15 @@
 package com.pbd.psi.ui.transaction
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.pbd.psi.AddTransactionActivity
 import com.pbd.psi.R
 import com.pbd.psi.databinding.FragmentTransactionBinding
 import com.pbd.psi.repository.TransactionRepository
@@ -12,7 +17,7 @@ import com.pbd.psi.room.AppDatabase
 
 class TransactionFragment : Fragment() {
     private lateinit var binding: FragmentTransactionBinding
-
+    private val adapter by lazy { TransactionViewAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,11 +26,26 @@ class TransactionFragment : Fragment() {
         val appDatabase = AppDatabase.getDatabase(requireContext())
         val repository = TransactionRepository(appDatabase)
         val viewModel = TransactionViewModel(repository)
-//        binding.transList.text = viewModel.transactionList
+        viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
+            if (transItems != null) {
+                val transList = ArrayList(transItems)
+                adapter.transactionItems = transList
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.transactionList.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapter
+        }
+        binding.addButton.setOnClickListener{
+            val intent = Intent(requireContext(), AddTransactionActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }

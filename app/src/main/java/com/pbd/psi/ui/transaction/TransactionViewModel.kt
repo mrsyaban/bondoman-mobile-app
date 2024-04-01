@@ -16,10 +16,6 @@ class TransactionViewModel(
         repository.getTransById(id)
     }
 
-    fun addTransaction(trans: TransactionEntity) = viewModelScope.launch {
-        repository.addTransaction(trans)
-    }
-
     fun updateTransaction(trans: TransactionEntity) = viewModelScope.launch {
         repository.updateTransaction(trans)
     }
@@ -28,7 +24,4 @@ class TransactionViewModel(
         repository.deleteTransaction(trans)
     }
 
-    companion object {
-
-    }
 }

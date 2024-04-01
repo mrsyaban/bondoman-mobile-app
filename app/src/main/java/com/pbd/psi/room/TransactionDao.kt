@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 @Dao
 interface TransactionDao {
-    @Query("SELECT * FROM `transaction`")
+    @Query("SELECT * FROM transactionTable")
     fun getAllTrans(): LiveData<List<TransactionEntity>>
 
-    @Query("SELECT * FROM `transaction` WHERE id=:id")
+    @Query("SELECT * FROM transactionTable WHERE id=:id")
     fun getTransById(id: Int): TransactionEntity
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
