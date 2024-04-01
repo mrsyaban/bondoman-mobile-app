@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".ui.add_transaction.AddTransactionFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/form_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/primaryDarker"
+            app:layout_constraintTop_toTopOf="parent"
+            app:cardCornerRadius="20dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/menu_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="35dp">
+                    <EditText
+                        android:id="@+id/title_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:hint="@string/title_hint"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        app:layout_constraintBottom_toTopOf="@id/amount_input"
+                        app:layout_constraintWidth="match_parent"
+                        android:layout_marginBottom="20dp"
+                        />
+                    <EditText
+                        android:id="@+id/amount_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:hint="@string/amount_hint"
+                        android:inputType="number"
+                        android:padding="10dp"
+                        android:layout_marginTop="20dp"
+                        app:layout_constraintTop_toBottomOf="@+id/title_input" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/form_card_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/tambah"
+            android:background="@color/primaryBlue"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
