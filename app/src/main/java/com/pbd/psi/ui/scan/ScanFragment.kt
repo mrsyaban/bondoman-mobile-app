@@ -23,6 +23,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import com.pbd.psi.LoginActivity
 import com.pbd.psi.api.ApiConfig
 import com.pbd.psi.databinding.FragmentScanBinding
@@ -204,10 +205,11 @@ class ScanFragment : Fragment() {
                     val responseBody = response.body()
                     if (responseBody != null) {
                         val responseString = responseBody.toString()
+                        Log.d("ResponseString", "Response: $responseString")
                         Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
                         try {
                             val scanData = parseScanData(responseString)
-                            for (item in scanData.items) {
+                            for (item in scanData?.items?.items ?: emptyList()) {
                                 val transactionEntity = TransactionEntity(
                                     name = item.name,
                                     price = item.price.toInt() * item.qty,
@@ -242,24 +244,14 @@ class ScanFragment : Fragment() {
         _binding = null
     }
 
-    private data class Item(val name: String, val qty: Int, val price: Double)
-    private data class Items(val items: List<Item>)
-
-    private fun parseScanData(responseJson: String): Items {
-        val jsonObject = JSONObject(responseJson)
-        val itemsJson = jsonObject.getJSONObject("items").getJSONArray("items")
-
-        val itemsList = mutableListOf<Item>()
-
-        for (i in 0 until itemsJson.length()) {
-            val itemJson = itemsJson.getJSONObject(i)
-            val name = itemJson.getString("name")
-            val qty = itemJson.getInt("qty")
-            val price = itemJson.getDouble("price")
-            val item = Item(name, qty, price)
-            itemsList.add(item)
+    fun parseScanData(responseString: String): UploadRes? {
+        return try {
+            val jsonObject = JSONObject(responseString)
+            val gson = Gson()
+            gson.fromJson(jsonObject.toString(), UploadRes::class.java)
+        } catch (e: Exception) {
+            null
         }
-
-        return Items(itemsList)
     }
+
 }
