@@ -7,7 +7,7 @@ import android.content.Context
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 
-@Database(entities = [TransactionEntity::class], version = 2)
+@Database(entities = [TransactionEntity::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase() : RoomDatabase() {
 

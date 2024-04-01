@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import com.pbd.psi.R
 import com.pbd.psi.databinding.FragmentAddTransactionBinding
 import com.pbd.psi.repository.TransactionRepository
@@ -27,15 +28,22 @@ class AddTransactionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val inputName = binding.titleInput.text.toString()
-        val inputAmount = binding.amountInput.text.toString().toInt()
-
-        val appDatabase = AppDatabase.getDatabase(requireContext())
-        val repository = TransactionRepository(appDatabase)
-        val viewModel = AddTransactionViewModel(repository)
-
         binding.submitButton.setOnClickListener{
-            viewModel.addTransaction(inputName, Category.EXPENSE, inputAmount)
+            val inputName = binding.titleInput.text.toString()
+            val inputAmountStr = binding.amountInput.text.toString()
+
+            // Check if inputAmountStr is empty or not a valid integer
+            if (inputAmountStr.isNotEmpty()) {
+                val inputAmount = inputAmountStr.toInt()
+                val appDatabase = AppDatabase.getDatabase(requireContext())
+                val repository = TransactionRepository(appDatabase)
+                val viewModel = AddTransactionViewModel(repository)
+                viewModel.addTransaction(inputName, Category.EXPENSE, inputAmount)
+                Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
+            } else {
+                // Handle case where amount input is empty
+                Toast.makeText(requireContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

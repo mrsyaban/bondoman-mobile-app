@@ -17,7 +17,8 @@ import com.pbd.psi.room.AppDatabase
 
 class TransactionFragment : Fragment() {
     private lateinit var binding: FragmentTransactionBinding
-    private val adapter by lazy { TransactionViewAdapter() }
+    private val transactionAdapter by lazy { TransactionViewAdapter() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,10 +28,9 @@ class TransactionFragment : Fragment() {
         val repository = TransactionRepository(appDatabase)
         val viewModel = TransactionViewModel(repository)
         viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
-            if (transItems != null) {
-                val transList = ArrayList(transItems)
-                adapter.transactionItems = transList
-            }
+            val transactions = requireNotNull(transItems) { "Transaction list is null" }
+            val transList = ArrayList(transactions)
+            transactionAdapter.transactionItems = transList
         }
         return binding.root
     }
@@ -40,7 +40,7 @@ class TransactionFragment : Fragment() {
         binding.transactionList.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context)
-            adapter = adapter
+            adapter = transactionAdapter
         }
         binding.addButton.setOnClickListener{
             val intent = Intent(requireContext(), AddTransactionActivity::class.java)

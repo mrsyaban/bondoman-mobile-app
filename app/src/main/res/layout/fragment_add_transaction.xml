@@ -24,8 +24,6 @@
                 android:paddingHorizontal="10dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="35dp">
-
-
                     <EditText
                         android:id="@+id/title_input"
                         android:layout_width="match_parent"
@@ -38,7 +36,6 @@
                         app:layout_constraintWidth="match_parent"
                         android:layout_marginBottom="20dp"
                         />
-
                     <EditText
                         android:id="@+id/amount_input"
                         android:layout_width="match_parent"
@@ -52,12 +49,13 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <Button
+        <androidx.cardview.widget.CardView
             android:id="@+id/submit_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
             app:layout_constraintTop_toBottomOf="@+id/form_card_view"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Send"/>
+            android:text="@string/tambah"
+            android:background="@color/primaryBlue"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
