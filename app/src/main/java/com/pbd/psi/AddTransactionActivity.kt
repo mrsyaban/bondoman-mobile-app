@@ -16,5 +16,9 @@ class AddTransactionActivity : AppCompatActivity() {
             .beginTransaction()
             .replace(R.id.placeholderForm, fragment)
             .commit()
+
+        binding.backButtonAdd.setOnClickListener{
+            finish()
+        }
     }
 }

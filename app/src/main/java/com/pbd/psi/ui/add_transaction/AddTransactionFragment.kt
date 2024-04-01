@@ -45,6 +45,7 @@ class AddTransactionFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
 

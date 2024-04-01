@@ -41,7 +41,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.navigation.fragment.findNavController
+import com.pbd.psi.room.Category
 import java.io.ByteArrayOutputStream
+import java.util.Date
 
 class ScanFragment : Fragment() {
 
@@ -53,7 +55,6 @@ class ScanFragment : Fragment() {
     private var previewFrozen: Boolean = false
     private var cameraProvider: ProcessCameraProvider? = null
 
-    private lateinit var viewModel: ScanViewModel
 
     private val filePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -214,15 +215,23 @@ class ScanFragment : Fragment() {
                         Log.d("ResponseString", "Response: $responseString")
                         Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
                         try {
+                            val appDatabase = AppDatabase.getDatabase(requireContext())
+                            val repository = ScanRepository(appDatabase)
+                            val viewModel = ScanViewModel(repository)
                             val scanData = parseScanData(responseString)
                             for (item in scanData?.items?.items ?: emptyList()) {
+                                val curDate = Date()
                                 val transactionEntity = TransactionEntity(
-                                    name = item.name,
-                                    price = item.price.toInt() * item.qty,
-                                    category = 0,
-                                    longitude = 0.0,
-                                    latitude = 0.0,
+                                    0,
+                                    item.name,
+                                    Category.EXPENSE,
+                                    item.price.toInt() * item.qty,
+                                    curDate,
+                                    "location",
+                                    0.0,
+                                    0.0,
                                 )
+                                Log.d("jancok", "woyyyyyyyyyyyyyyy")
                                 viewModel.addTransaction(transactionEntity)
                             }
                         } catch (e: Exception) {
