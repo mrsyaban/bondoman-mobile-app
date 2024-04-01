@@ -6,13 +6,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import com.pbd.psi.LoginActivity
-import com.pbd.psi.MainActivity
 import com.pbd.psi.api.ApiConfig
 import com.pbd.psi.models.AuthRes
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
 
 class BackgroundService : Service() {
 
@@ -24,6 +22,7 @@ class BackgroundService : Service() {
 
     private lateinit var sharedpreferences: SharedPreferences
     private var isServiceRunning = false
+    private var job: Job? = null
 
     override fun onBind(intent: Intent?): IBinder? {
         Log.d("BackgroundService", "onBind")
@@ -42,42 +41,42 @@ class BackgroundService : Service() {
     }
 
     private fun startBackgroundTask(token: String) {
-        Thread {
+        job = CoroutineScope(Dispatchers.IO).launch {
             while (isServiceRunning) {
                 try {
-                    Thread.sleep(10000)
+                    delay(10000)
                     Log.d("BackgroundService", "Running")
-                    ApiConfig.api.auth("Bearer $token").enqueue(object : Callback<AuthRes> {
-                        override fun onResponse(call: Call<AuthRes>, response: Response<AuthRes>) {
-                            if (response.isSuccessful){
-                                Log.d("BackgroundService", "onResponse: ${response.body()}")
-                            } else {
+                    try {
+                        val response = ApiConfig.api.auth("Bearer $token")
+                        if (response.isSuccessful) {
+                            Log.d("BackgroundService", "onResponse: ${response.body()}")
+                        } else {
+                            withContext(Dispatchers.Main) {
                                 val editor = sharedpreferences.edit()
                                 editor.clear()
                                 editor.apply()
+                                Toast.makeText(this@BackgroundService, "Session expired", Toast.LENGTH_SHORT).show()
                                 val loginIntent = Intent(this@BackgroundService, LoginActivity::class.java)
                                 loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(loginIntent)
                                 stopSelf()
                             }
                         }
-
-                        override fun onFailure(call: Call<AuthRes>, t: Throwable) {
-                            Log.e("BackgroundService", "onFailure: ${t.message}")
-                        }
-
-                    })
+                    } catch (e: Exception) {
+                        Log.e("BackgroundService", "Error: ${e.message}")
+                    }
                     Log.d("BackgroundService", "Service running")
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
                 }
             }
-        }.start()
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         isServiceRunning = false
+        job?.cancel()
         Log.d("BackgroundService", "Service stopped")
     }
 }

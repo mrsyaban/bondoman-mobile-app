@@ -49,6 +49,6 @@
     <!--    Content Description-->
     <string name="back_button">Back</string>
 
-
-
+    <!--    Settings-->
+    <string name="setting_header">Setting</string>
 </resources>

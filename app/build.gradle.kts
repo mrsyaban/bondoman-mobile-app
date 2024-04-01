@@ -16,7 +16,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     buildFeatures {
@@ -64,6 +64,7 @@ dependencies {
     implementation ("androidx.camera:camera-video:1.1.0")
     implementation ("androidx.camera:camera-view:1.1.0")
     implementation ("androidx.camera:camera-extensions:1.1.0")
+    implementation("androidx.room:room-common:2.6.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -80,5 +81,10 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
+
+
+    //chart
+    implementation("androidx.multidex:multidex:2.0.1")
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

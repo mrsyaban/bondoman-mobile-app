@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.pbd.psi.LoginActivity
 import com.pbd.psi.databinding.FragmentSettingsBinding
 
@@ -34,8 +35,23 @@ class SettingsFragment : Fragment() {
             editor.clear()
             editor.apply()
             val intent = Intent(requireActivity(), LoginActivity::class.java)
+            Toast.makeText(requireActivity(), "Success logout", Toast.LENGTH_SHORT).show()
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             requireActivity().finish()
+        }
+        binding.btnUploadHistory.setOnClickListener {
+            val email = sharedpreferences.getString(EMAIL, "")
+            val intentEmail = Intent(Intent.ACTION_SEND)
+            intentEmail.type = "text/plain"
+            intentEmail.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Upload History")
+            intentEmail.putExtra(Intent.EXTRA_TEXT, "Berikut ini laporan hasil transaksi akun $email :\n")
+
+            startActivity(Intent.createChooser(intentEmail, "Send Email"))
+        }
+        binding.btnSettings.setOnClickListener {
+            // apply broadcast receiver
         }
 
         return binding.root
