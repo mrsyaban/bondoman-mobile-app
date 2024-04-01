@@ -35,7 +35,7 @@ class SettingsFragment : Fragment() {
             editor.clear()
             editor.apply()
             val intent = Intent(requireActivity(), LoginActivity::class.java)
-            Toast.makeText(requireActivity(), sharedpreferences.getString(EMAIL,""), Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Success logout", Toast.LENGTH_SHORT).show()
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             requireActivity().finish()

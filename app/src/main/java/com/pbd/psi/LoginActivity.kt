@@ -36,11 +36,6 @@ class LoginActivity : AppCompatActivity() {
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
 
-        if(!isOnline(this)){
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         isLogin()
 
         viewModel.loginResult.observe(this) {
@@ -65,6 +60,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener{
+            isOnline(this)
             doLogin()
         }
     }
@@ -91,7 +87,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.loginUser(email, password)
     }
 
-    private fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =
@@ -99,16 +95,17 @@ class LoginActivity : AppCompatActivity() {
         if (capabilities != null) {
             if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                return true
+                return
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                return true
+                return
             } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
                 Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                return true
+                return
             }
         }
-        return false
+        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
+        return
     }
     private fun isLogin() {
         val token = sharedpreferences.getString(TOKEN, "")

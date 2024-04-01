@@ -29,4 +29,9 @@
         android:name="com.pbd.psi.ui.twibbon.TwibbonFragment"
         android:label="fragment_twibbon"
         tools:layout="@layout/fragment_twibbon" />
+    <fragment
+        android:id="@+id/notConnectionFragment"
+        android:name="com.pbd.psi.ui.no_internet.NotConnectionFragment"
+        android:label="fragment_not_connection"
+        tools:layout="@layout/fragment_not_connection" />
 </navigation>

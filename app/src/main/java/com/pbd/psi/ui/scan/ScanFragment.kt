@@ -7,6 +7,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -38,6 +40,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import androidx.navigation.fragment.findNavController
 import java.io.ByteArrayOutputStream
 
 class ScanFragment : Fragment() {
@@ -71,6 +74,12 @@ class ScanFragment : Fragment() {
         _binding = FragmentScanBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        if(!isOnline(requireContext())){
+            findNavController().navigate(com.pbd.psi.R.id.notConnectionFragment)
+            return root
+        }
+
+
         val permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
@@ -101,12 +110,9 @@ class ScanFragment : Fragment() {
             uploadImage()
         }
 
-        val appDatabase = AppDatabase.getDatabase(requireContext())
-        val repository = ScanRepository(appDatabase)
-        val viewModel = ScanViewModel(repository)
-
         return root
     }
+
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -252,6 +258,27 @@ class ScanFragment : Fragment() {
         } catch (e: Exception) {
             null
         }
+    }
+
+    private fun isOnline(context: Context): Boolean{
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                return true
+            }
+        }
+        Toast.makeText(context, "No internet connection", Toast.LENGTH_SHORT).show()
+        return false
     }
 
 }
