@@ -15,6 +15,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transactionTable WHERE id=:id")
     fun getTransById(id: Int): TransactionEntity
 
+    @Query("SELECT SUM(amount) as amount FROM transactionTable WHERE category=:category GROUP BY category")
+    fun getSumTransaction(category: Category): Int
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addTransaction(trans: TransactionEntity)
 
