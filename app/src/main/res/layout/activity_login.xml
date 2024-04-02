@@ -29,7 +29,7 @@
             android:id="@+id/edt_login_email"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/rounder_corner_edit_text"
+            android:background="@drawable/edit_text_border"
             android:inputType="textEmailAddress"
             android:textColor="@color/black"
             android:hint="Input your name"
@@ -40,7 +40,7 @@
             android:id="@+id/edt_login_pass"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/rounder_corner_edit_text"
+            android:background="@drawable/edit_text_border"
             android:inputType="textPassword"
             android:layout_marginTop="10dp"
             android:hint="Type your password"
@@ -48,18 +48,15 @@
             android:layout_marginBottom="24dp" />
 
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="LOGIN"
-            android:background="@drawable/rounder_corner_submit"
+            android:background="@drawable/login_button"
             android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="52dip"
             android:layout_marginBottom="24dp" />
-
-
 
         <TextView
             android:layout_width="match_parent"
