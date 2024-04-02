@@ -42,7 +42,7 @@ class AddTransactionFragment : Fragment() {
             if (inputAmountStr.isNotEmpty()) {
                 val inputAmount = inputAmountStr.toInt()
                 viewModel.addTransaction(inputName, Category.EXPENSE, inputAmount)
-
+                requireActivity().finish()
             } else {
                 // Handle case where amount input is empty
                 Toast.makeText(requireContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show()
