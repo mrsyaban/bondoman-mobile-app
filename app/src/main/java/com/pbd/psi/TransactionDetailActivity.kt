@@ -36,8 +36,8 @@ class TransactionDetailActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
         binding.backButtonDetail.setOnClickListener{
-            viewModel.updateTransaction()
             finish()
         }
     }

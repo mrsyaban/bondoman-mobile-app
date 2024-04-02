@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryBlack"
-        app:layout_constraintBottom_toTopOf="@+id/detail_placeholder"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,41 +43,73 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
-    <FrameLayout
-        android:id="@+id/detail_placeholder"
+    <ImageView
+        android:id="@+id/update_category"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transaction_detail_header"
-        app:layout_constraintEnd_toEndOf="parent">
-        <ImageView
-            android:id="@+id/update_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/category_symbol"
-            android:src="@drawable/expense_symbol"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="100dp"
-            android:scaleType="fitCenter" />
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/category_symbol"
+        android:src="@drawable/expense_symbol"
+        app:layout_constraintTop_toTopOf="@id/transaction_detail_header"
+        android:layout_marginTop="100dp"
+        android:scaleType="fitCenter" />
 
-        <TextView
-            android:id="@+id/update_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/update_category"
-            android:text="@string/category_symbol"/>
-        <EditText
-            android:id="@+id/update_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title_hint"
-            android:autofillHints="name"
-            android:background="@drawable/edit_text_holder"
-            android:inputType="text"
-            android:textAlignment="center"
-            app:layout_constraintTop_toBottomOf="@+id/update_date"
-            android:text="@string/category_symbol"/>
-    </FrameLayout>
+    <TextView
+        android:id="@+id/update_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/update_category"
+        android:text="@string/category_symbol"/>
+
+    <EditText
+        android:id="@+id/update_name"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/title_hint"
+        android:autofillHints="name"
+        android:background="@drawable/update_text_holder"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="40dp"
+        android:textColorHint="@color/white"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/update_date" />
+
+    <EditText
+        android:id="@+id/update_amount"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/title_hint"
+        android:autofillHints="name"
+        android:background="@drawable/update_text_holder"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:textColorHint="@color/white"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/update_name" />
+
+    <EditText
+        android:id="@+id/update_location"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="@string/title_hint"
+        android:autofillHints="name"
+        android:background="@drawable/update_text_holder"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
+        android:textColorHint="@color/white"
+        android:inputType="text"
+        android:textAlignment="textStart"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/update_amount" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
