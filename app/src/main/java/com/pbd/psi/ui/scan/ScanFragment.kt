@@ -25,13 +25,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.gson.Gson
 import com.pbd.psi.LoginActivity
 import com.pbd.psi.api.ApiConfig
 import com.pbd.psi.databinding.FragmentScanBinding
 import com.pbd.psi.models.UploadRes
-import com.pbd.psi.repository.ScanRepository
-import com.pbd.psi.room.AppDatabase
 import com.pbd.psi.room.TransactionEntity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -42,14 +41,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.navigation.fragment.findNavController
 import com.pbd.psi.room.Category
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import java.util.Date
 
+@AndroidEntryPoint
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-
+    private val viewModel: ScanViewModel by viewModels()
     private var imageCapture: ImageCapture? = null
 
     private var previewFrozen: Boolean = false
@@ -215,9 +216,6 @@ class ScanFragment : Fragment() {
                         Log.d("ResponseString", "Response: $responseString")
                         Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
                         try {
-                            val appDatabase = AppDatabase.getDatabase(requireContext())
-                            val repository = ScanRepository(appDatabase)
-                            val viewModel = ScanViewModel(repository)
                             val scanData = parseScanData(responseString)
                             for (item in scanData?.items?.items ?: emptyList()) {
                                 val curDate = Date()

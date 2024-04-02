@@ -4,6 +4,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-android")
     id ("kotlin-kapt")
+    id ("com.google.dagger.hilt.android")
 }
 
 android {
@@ -68,6 +69,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation ("androidx.activity:activity-ktx")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //api
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -80,11 +84,17 @@ dependencies {
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
-    kapt("androidx.room:room-compiler:$roomVersion")
+    kapt ("androidx.room:room-compiler:$roomVersion")
 
+    implementation ("com.google.dagger:hilt-android:2.51.1")
+    kapt ("com.google.dagger:hilt-compiler:2.51.1")
 
     //chart
     implementation("androidx.multidex:multidex:2.0.1")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
+}
+
+kapt {
+    correctErrorTypes=true
 }

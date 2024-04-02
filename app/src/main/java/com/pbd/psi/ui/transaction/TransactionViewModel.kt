@@ -5,23 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbd.psi.repository.TransactionRepository
 import com.pbd.psi.room.TransactionEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TransactionViewModel(
+
+@HiltViewModel
+class TransactionViewModel @Inject constructor(
     private val repository: TransactionRepository,
 ) : ViewModel() {
     var transactionList: LiveData<List<TransactionEntity>> = repository.transactionList
-
-    fun getTransById(id: Int) = viewModelScope.launch {
-        repository.getTransById(id)
-    }
-
-    fun updateTransaction(trans: TransactionEntity) = viewModelScope.launch {
-        repository.updateTransaction(trans)
-    }
-
-    fun deleteTransaction(trans: TransactionEntity) = viewModelScope.launch {
-        repository.deleteTransaction(trans)
-    }
-
 }
