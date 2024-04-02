@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbd.psi.repository.GraphRepository
 import com.pbd.psi.room.Category
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class GraphViewModel(private val repository: GraphRepository) : ViewModel() {
+@HiltViewModel
+class GraphViewModel @Inject constructor(private val repository: GraphRepository) : ViewModel() {
     private val _incomeTotal = MutableLiveData<Int>()
     val incomeTotal: LiveData<Int>
         get() = _incomeTotal

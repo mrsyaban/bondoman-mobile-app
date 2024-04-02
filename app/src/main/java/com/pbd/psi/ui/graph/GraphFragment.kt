@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -17,10 +18,13 @@ import com.github.mikephil.charting.utils.MPPointF
 import com.pbd.psi.databinding.FragmentGraphBinding
 import com.pbd.psi.repository.GraphRepository
 import com.pbd.psi.room.AppDatabase
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GraphFragment : Fragment() {
     private lateinit var binding: FragmentGraphBinding
     private val entries: ArrayList<PieEntry> = ArrayList()
+    private val viewModel: GraphViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +50,6 @@ class GraphFragment : Fragment() {
         pieChart.setEntryLabelColor(Color.WHITE)
         pieChart.setEntryLabelTextSize(12f)
 
-        val appDatabase = AppDatabase.getDatabase(requireContext())
-        val repository = GraphRepository(appDatabase)
-        val viewModel = GraphViewModel(repository)
         viewModel.fetchIncomeTotal()
         viewModel.fetchExpenseTotal()
 

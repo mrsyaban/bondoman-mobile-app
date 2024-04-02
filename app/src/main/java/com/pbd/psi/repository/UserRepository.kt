@@ -7,7 +7,6 @@ import com.pbd.psi.models.LoginRes
 import retrofit2.Response
 
 class UserRepository {
-
     suspend fun loginUser(loginReq : LoginReq) : Response<LoginRes> {
         return ApiConfig.getApiService().login(loginReq)
     }

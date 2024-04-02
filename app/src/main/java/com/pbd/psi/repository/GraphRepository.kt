@@ -5,8 +5,9 @@ import com.pbd.psi.room.Category
 import com.pbd.psi.room.TransactionEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GraphRepository(private val database: AppDatabase) {
+class GraphRepository @Inject constructor(private val database: AppDatabase) {
     suspend fun getSumTransaction(category: Category): Int {
         return withContext(Dispatchers.IO) {
             // Perform database operation here
