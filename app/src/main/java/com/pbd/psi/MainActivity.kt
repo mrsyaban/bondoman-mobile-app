@@ -17,7 +17,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.pbd.psi.databinding.ActivityMainBinding
 import com.pbd.psi.databinding.FragmentSettingsBinding
 import com.pbd.psi.services.BackgroundService
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
         const val SHARED_PREFS = "shared_prefs"

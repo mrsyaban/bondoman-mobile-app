@@ -45,9 +45,13 @@
     <string name="title_hint">Nama</string>
     <string name="amount_hint">Nominal</string>
 
+    <!--    Transaction Detail-->
+    <string name="detail_transaction">Detail Transaksi</string>
+
 
     <!--    Content Description-->
     <string name="back_button">Back</string>
+    <string name="category_symbol">category</string>
 
     <!--    Settings-->
     <string name="setting_header">Setting</string>

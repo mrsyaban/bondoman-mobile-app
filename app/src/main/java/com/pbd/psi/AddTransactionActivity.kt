@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.pbd.psi.databinding.ActivityAddTransactionBinding
 import com.pbd.psi.ui.add_transaction.AddTransactionFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddTransactionActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,7 +16,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val fragment = AddTransactionFragment()
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.placeholderForm, fragment)
+            .replace(binding.placeholderForm.id, fragment)
             .commit()
 
         binding.backButtonAdd.setOnClickListener{

@@ -1,6 +1,9 @@
 package com.pbd.psi.ui.transaction
 
+import android.content.Intent
 import android.view.LayoutInflater
+import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pbd.psi.R
@@ -13,10 +16,14 @@ import java.lang.IllegalArgumentException
 class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
 
     var transactionItems = arrayListOf<TransactionEntity>()
+
     set(value) {
         field = value
         notifyDataSetChanged()
     }
+
+    var itemClickListener: ((view: View,item: Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         when(viewType){
             R.layout.income_card -> return TransactionViewHolder.IncomeViewHolder(
@@ -39,15 +46,18 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        holder.itemClickListener = itemClickListener
         when(holder){
             is TransactionViewHolder.IncomeViewHolder ->
                 holder.bind(
+                    transactionItems[position].id,
                     transactionItems[position].name,
                     transactionItems[position].date.toString(),
                     transactionItems[position].amount
                 )
-            is TransactionViewHolder.ExpenseViewHolder ->
+            is TransactionViewHolder.ExpenseViewHolder -> {
                 holder.bind(
+                    transactionItems[position].id,
                     transactionItems[position].name,
                     transactionItems[position].date.toString(),
                     transactionItems[position].amount,
@@ -55,6 +65,7 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
                     transactionItems[position].longitude,
                     transactionItems[position].latitude,
                 )
+            }
         }
     }
 
