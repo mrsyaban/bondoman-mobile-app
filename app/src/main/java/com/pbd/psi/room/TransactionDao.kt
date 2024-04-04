@@ -14,7 +14,7 @@ interface TransactionDao {
     fun getAllTrans(): LiveData<List<TransactionEntity>>
 
     @Query("SELECT * FROM transactionTable")
-    fun getAllTransactions(): List<TransactionEntity>
+    suspend fun getAllTransactions(): List<TransactionEntity>
 
     @Query("SELECT * FROM transactionTable WHERE id=:id LIMIT 1")
     fun getTransById(id: Int): LiveData<TransactionEntity>

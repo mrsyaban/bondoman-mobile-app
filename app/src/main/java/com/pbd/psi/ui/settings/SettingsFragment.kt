@@ -79,11 +79,13 @@ class SettingsFragment : Fragment() {
         binding.btnSettings.setOnClickListener {
             Log.d("button_export", "MASUKKK")
             lifecycleScope.launch {
-                Log.d("button_export", "DALEMM")
-                val transactions = viewModel.fetchAllTransactions()
-                exportTransactionsToExcel(transactions)
+                    Log.d("button_export", "DALEMM")
+                    val transactions = viewModel.fetchAllTransactions()
+                    Log.d("button_export", "DALEM1")
+                    exportTransactionsToExcel(transactions)
+                    Log.d("button_export", "DALEM2")
+                    Log.d("button_export", "KELUAR")
             }
-            Log.d("button_export", "KELUAR")
         }
     }
 
