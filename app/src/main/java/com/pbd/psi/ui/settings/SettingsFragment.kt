@@ -1,6 +1,8 @@
 package com.pbd.psi.ui.settings
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -36,6 +38,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var sharedpreferences: SharedPreferences
+    private lateinit var fileName: String
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
@@ -72,8 +75,30 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnSettings.setOnClickListener {
-            filePickerLauncher.launch(null)
+            val exportOptions = arrayOf("Export as XLSX", "Export as XLS")
+
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Export File Type")
+            builder.setItems(exportOptions) { _: DialogInterface?, which: Int ->
+                when (which) {
+                    0 ->  {
+                        fileName = "transaction_data.xlsx"
+                        launchFilePicker()
+                    }
+                    1 -> {
+                        fileName = "transaction_data.xls"
+                        launchFilePicker()
+                    }
+                }
+            }
+
+            val dialog = builder.create()
+            dialog.show()
         }
+    }
+
+    private fun launchFilePicker() {
+        filePickerLauncher.launch(null)
     }
 
     private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
@@ -84,7 +109,7 @@ class SettingsFragment : Fragment() {
                     val transactions = requireNotNull(transItems) { "Transaction list is null" }
                     val transList = ArrayList(transactions)
                     Log.d("TransactionList", "TransactionList: $transList")
-                    exportTransactionsToExcel(transList, documentFile)
+                    exportTransactionsToExcel(transList, documentFile, fileName)
                 }
             } else {
                 Toast.makeText(requireContext(), "Invalid directory", Toast.LENGTH_SHORT).show()
@@ -92,7 +117,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun exportTransactionsToExcel(transactionEntities: List<TransactionEntity>, directory: DocumentFile) {
+    private fun exportTransactionsToExcel(transactionEntities: List<TransactionEntity>, directory: DocumentFile, fileName: String) {
         if (transactionEntities.isNotEmpty()) {
             val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet("Transaction Data")
@@ -123,14 +148,18 @@ class SettingsFragment : Fragment() {
                 dataRow.createCell(4).setCellValue(transaction.location ?: "")
             }
 
-            val fileName = "transaction_data.xlsx"
-            val file = directory.createFile("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName)
+            val file: DocumentFile
+            if(fileName === "transaction_data.xls"){
+                file = directory.createFile("application/vnd.ms-excel", fileName)!!
+            }else{
+                file = directory.createFile("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName)!!
+            }
             val outputStream = requireContext().contentResolver.openOutputStream(file!!.uri)
             workbook.write(outputStream)
             workbook.close()
             outputStream?.close()
 
-            Toast.makeText(requireContext(), "Data exported to ${directory.uri}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Data Successfully Exported!", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(requireContext(), "No transaction data available", Toast.LENGTH_SHORT).show()
         }

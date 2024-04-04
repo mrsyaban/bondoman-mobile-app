@@ -214,7 +214,7 @@ class ScanFragment : Fragment() {
                     if (responseBody != null) {
                         val responseString = responseBody.toString()
                         Log.d("ResponseString", "Response: $responseString")
-                        Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Image Successfully Uploaded!", Toast.LENGTH_LONG).show()
                         try {
                             val scanData = response.body()?.items?.items ?: emptyList()
                             val namesBuilder = StringBuilder()
@@ -246,7 +246,7 @@ class ScanFragment : Fragment() {
                             Toast.makeText(requireContext(), "Error parsing response JSON", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(requireContext(), "Image uploaded successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show()
                     }
                     previewMask()
                 } else {
