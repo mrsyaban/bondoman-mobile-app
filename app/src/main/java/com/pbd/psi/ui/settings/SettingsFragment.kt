@@ -78,14 +78,23 @@ class SettingsFragment : Fragment() {
 
         binding.btnSettings.setOnClickListener {
             Log.d("button_export", "MASUKKK")
-            lifecycleScope.launch {
-                    Log.d("button_export", "DALEMM")
-                    val transactions = viewModel.fetchAllTransactions()
-                    Log.d("button_export", "DALEM1")
-                    exportTransactionsToExcel(transactions)
-                    Log.d("button_export", "DALEM2")
-                    Log.d("button_export", "KELUAR")
+//            lifecycleScope.launch {
+//                    Log.d("button_export", "DALEMM")
+//                    val transactions = viewModel.fetchAllTransactions()
+//                    Log.d("button_export", "DALEM1")
+//                    exportTransactionsToExcel(transactions)
+//                    Log.d("button_export", "DALEM2")
+//                    Log.d("button_export", "KELUAR")
+//            }
+            viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
+                Log.d("button_export", "MASUKKK")
+                val transactions = requireNotNull(transItems) { "Transaction list is null" }
+                val transList = ArrayList(transactions)
+                Log.d("button_export", "MASUKKK")
+                Log.d("TransactionList", "TransactionList: $transList")
+                exportTransactionsToExcel(transList)
             }
+
         }
     }
 

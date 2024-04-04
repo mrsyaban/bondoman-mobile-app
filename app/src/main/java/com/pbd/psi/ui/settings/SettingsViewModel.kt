@@ -1,9 +1,12 @@
 package com.pbd.psi.ui.transaction
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pbd.psi.repository.SettingsRepository
+import com.pbd.psi.room.Category
 import com.pbd.psi.room.TransactionEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CompletableDeferred
@@ -16,13 +19,13 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository,
 ) : ViewModel() {
-    var transactionList: List<TransactionEntity> = emptyList()
+    var transactionList: LiveData<List<TransactionEntity>> = repository.transactionList
 
-    suspend fun fetchAllTransactions(): List<TransactionEntity> {
-        return withContext(Dispatchers.IO) {
-            Log.d("button_export", "Repo1")
-            repository.getAllTrans()
-        }
-    }
+//    fun fetchData() {
+//        viewModelScope.launch {
+//            _data = repository.getAllTrans()
+//            Log.d("SettingsViewModel", "fetchData: $_data")
+//        }
+//    }
 }
 
