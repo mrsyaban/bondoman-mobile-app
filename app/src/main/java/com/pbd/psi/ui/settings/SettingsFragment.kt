@@ -1,35 +1,29 @@
 package com.pbd.psi.ui.settings
 
-import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.FileProvider
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import com.pbd.psi.LoginActivity
 import com.pbd.psi.databinding.FragmentSettingsBinding
 import com.pbd.psi.room.TransactionEntity
 import com.pbd.psi.ui.transaction.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.HorizontalAlignment
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.ss.usermodel.VerticalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import java.io.File
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -78,87 +72,67 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnSettings.setOnClickListener {
-            Log.d("button_export", "MASUKKK")
-//            lifecycleScope.launch {
-//                    Log.d("button_export", "DALEMM")
-//                    val transactions = viewModel.fetchAllTransactions()
-//                    Log.d("button_export", "DALEM1")
-//                    exportTransactionsToExcel(transactions)
-//                    Log.d("button_export", "DALEM2")
-//                    Log.d("button_export", "KELUAR")
-//            }
-            viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
-                Log.d("button_export", "MASUKKK")
-                val transactions = requireNotNull(transItems) { "Transaction list is null" }
-                val transList = ArrayList(transactions)
-                Log.d("button_export", "MASUKKK")
-                Log.d("TransactionList", "TransactionList: $transList")
-                try {
-                    exportTransactionsToExcel(transList)
-                } catch (e: Exception) {
-                    Log.d("error_excel", "Error: $e")
+            filePickerLauncher.launch(null)
+        }
+    }
+
+    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+        if (uri != null) {
+            val documentFile = DocumentFile.fromTreeUri(requireContext(), uri)
+            if (documentFile != null && documentFile.isDirectory) {
+                viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
+                    val transactions = requireNotNull(transItems) { "Transaction list is null" }
+                    val transList = ArrayList(transactions)
+                    Log.d("TransactionList", "TransactionList: $transList")
+                    exportTransactionsToExcel(transList, documentFile)
                 }
+            } else {
+                Toast.makeText(requireContext(), "Invalid directory", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 
-    private fun exportTransactionsToExcel(transactions: List<TransactionEntity>) {
-        val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-        val currentDateTime = sdf.format(Date())
-        val excelFileName = "Transaction_Report_$currentDateTime.xlsx"
-
-        val excelFile = File(requireContext().externalCacheDir, excelFileName)
-
-        // Write transactions data to Excel file
-        FileOutputStream(excelFile).use { fileOut ->
+    private fun exportTransactionsToExcel(transactionEntities: List<TransactionEntity>, directory: DocumentFile) {
+        if (transactionEntities.isNotEmpty()) {
             val workbook = XSSFWorkbook()
-            val sheet = workbook.createSheet("Transactions")
+            val sheet = workbook.createSheet("Transaction Data")
 
-            // Create header row
+            val headerCellStyle = workbook.createCellStyle()
+            headerCellStyle.fillForegroundColor = IndexedColors.GREY_25_PERCENT.getIndex()
+            headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND)
+            headerCellStyle.alignment = HorizontalAlignment.CENTER
+            headerCellStyle.verticalAlignment = VerticalAlignment.CENTER
+            val headerFont = workbook.createFont()
+            headerFont.bold = true
+            headerCellStyle.setFont(headerFont)
+
+            val headers = arrayOf("Date", "Name", "Category", "Amount", "Location")
             val headerRow = sheet.createRow(0)
-            headerRow.createCell(0).setCellValue("Name")
-            headerRow.createCell(1).setCellValue("Category")
-            headerRow.createCell(2).setCellValue("Amount")
-            headerRow.createCell(3).setCellValue("Date")
-            headerRow.createCell(4).setCellValue("Location")
-            headerRow.createCell(5).setCellValue("Longitude")
-            headerRow.createCell(6).setCellValue("Latitude")
-
-            // Fill data rows
-            var rowNum = 1
-            for (transaction in transactions) {
-                val row = sheet.createRow(rowNum++)
-                row.createCell(0).setCellValue(transaction.name)
-                row.createCell(1).setCellValue(transaction.category.toString())
-                row.createCell(2).setCellValue(transaction.amount.toDouble())
-                row.createCell(3).setCellValue(sdf.format(transaction.date))
-                row.createCell(4).setCellValue(transaction.location)
-                row.createCell(5).setCellValue(transaction.longitude)
-                row.createCell(6).setCellValue(transaction.latitude)
+            headers.forEachIndexed { index, headerText ->
+                val cell = headerRow.createCell(index)
+                cell.setCellValue(headerText)
+                cell.cellStyle = headerCellStyle
             }
 
-            workbook.write(fileOut)
+            transactionEntities.forEachIndexed { rowIndex, transaction ->
+                val dataRow = sheet.createRow(rowIndex + 1)
+                dataRow.createCell(0).setCellValue(transaction.date.toString())
+                dataRow.createCell(1).setCellValue(transaction.name ?: "")
+                dataRow.createCell(2).setCellValue(transaction.category.toString())
+                dataRow.createCell(3).setCellValue(transaction.amount.toDouble())
+                dataRow.createCell(4).setCellValue(transaction.location ?: "")
+            }
+
+            val fileName = "transaction_data.xlsx"
+            val file = directory.createFile("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName)
+            val outputStream = requireContext().contentResolver.openOutputStream(file!!.uri)
+            workbook.write(outputStream)
             workbook.close()
+            outputStream?.close()
+
+            Toast.makeText(requireContext(), "Data exported to ${directory.uri}", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), "No transaction data available", Toast.LENGTH_SHORT).show()
         }
-
-        // Notify the user that the file has been saved
-        Toast.makeText(requireContext(), "Transaction report is saved", Toast.LENGTH_SHORT).show()
-
-        // Generate content URI using FileProvider
-        val uri = FileProvider.getUriForFile(
-            requireContext(),
-            "${requireContext().packageName}.fileprovider",
-            excelFile
-        )
-
-        // Launch the file using an appropriate application
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        }
-        startActivity(intent)
     }
-
-
 }
