@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -92,23 +93,25 @@ class SettingsFragment : Fragment() {
                 val transList = ArrayList(transactions)
                 Log.d("button_export", "MASUKKK")
                 Log.d("TransactionList", "TransactionList: $transList")
-                exportTransactionsToExcel(transList)
+                try {
+                    exportTransactionsToExcel(transList)
+                } catch (e: Exception) {
+                    Log.d("error_excel", "Error: $e")
+                }
             }
 
         }
     }
 
     private fun exportTransactionsToExcel(transactions: List<TransactionEntity>) {
-        val sdf = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.getDefault())
+        val sdf = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val currentDateTime = sdf.format(Date())
         val excelFileName = "Transaction_Report_$currentDateTime.xlsx"
 
-        val excelFilePath = "${requireContext().externalCacheDir}/$excelFileName"
+        val excelFile = File(requireContext().externalCacheDir, excelFileName)
 
         // Write transactions data to Excel file
-        val outputStream = FileOutputStream(excelFilePath)
-
-        outputStream.use { fileOut ->
+        FileOutputStream(excelFile).use { fileOut ->
             val workbook = XSSFWorkbook()
             val sheet = workbook.createSheet("Transactions")
 
@@ -139,16 +142,23 @@ class SettingsFragment : Fragment() {
             workbook.close()
         }
 
-        val downloadManager = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val uri = Uri.fromFile(File(excelFilePath))
-        val request = DownloadManager.Request(uri).apply {
-            setTitle("Transaction Report")
-            setDescription("Downloading transaction report")
-            setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, excelFileName)
-        }
-        downloadManager.enqueue(request)
+        // Notify the user that the file has been saved
+        Toast.makeText(requireContext(), "Transaction report is saved", Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(requireContext(), "Transaction report is being downloaded", Toast.LENGTH_SHORT).show()
+        // Generate content URI using FileProvider
+        val uri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.fileprovider",
+            excelFile
+        )
+
+        // Launch the file using an appropriate application
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(intent)
     }
+
+
 }
