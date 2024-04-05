@@ -28,6 +28,8 @@ import org.apache.poi.ss.usermodel.VerticalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileOutputStream
+import android.content.BroadcastReceiver
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -51,6 +53,12 @@ class SettingsFragment : Fragment() {
     ): View {
         sharedpreferences = requireActivity().getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        binding.btnBroadcast.setOnClickListener{
+            Log.d("Broadcast", "Broadcast")
+            val intent= Intent("com.pbd.psi.ACTION_SEND")
+            Log.d("Broadcast", "Broadcast intent")
+            requireContext().sendBroadcast(intent)
+        }
         return binding.root
     }
 
@@ -111,6 +119,8 @@ class SettingsFragment : Fragment() {
             val dialog = builder.create()
             dialog.show()
         }
+
+
     }
 
     private fun launchFilePicker() {
@@ -190,12 +200,5 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "No transaction data available", Toast.LENGTH_SHORT).show()
         }
     }
-    private fun getFile(): File {
-        val fileName = "transaction_data"+sharedpreferences.getString(EMAIL, "")+".xlsx"
-        val dir = File(requireContext().cacheDir, "excel")
-        if (!dir.exists()) dir.mkdirs()
-        return File(dir, fileName)
-    }
-
 
 }

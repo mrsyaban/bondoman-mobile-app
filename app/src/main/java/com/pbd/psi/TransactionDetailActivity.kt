@@ -1,10 +1,18 @@
 package com.pbd.psi
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.pbd.psi.databinding.ActivityTransactionDetailBinding
 import com.pbd.psi.room.Category
 import com.pbd.psi.room.TransactionEntity
@@ -46,6 +54,7 @@ class TransactionDetailActivity : AppCompatActivity() {
                 )
             }
         }
+
     }
 
     override fun onStart() {
@@ -59,5 +68,4 @@ class TransactionDetailActivity : AppCompatActivity() {
             viewModel.deleteTransaction(displayData)
         }
     }
-
 }

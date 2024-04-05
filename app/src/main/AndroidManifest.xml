@@ -60,9 +60,20 @@
                 <data android:scheme="geo" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <!-- Remove this declaration -->
+        <receiver
+            android:name=".MainActivity"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.pbd.psi.ACTION_SEND" />
+            </intent-filter>
+        </receiver>
+
 
         <service android:name=".services.BackgroundService" />
     </application>
