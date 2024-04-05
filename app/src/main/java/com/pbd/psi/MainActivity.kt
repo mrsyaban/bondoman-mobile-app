@@ -6,6 +6,7 @@ import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -29,14 +30,42 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedpreferences: SharedPreferences
-    private lateinit var settingsBinding: FragmentSettingsBinding
     private lateinit var connectivityManager: ConnectivityManager
     private lateinit var networkChangeReceiver: BroadcastReceiver
+
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Log.d("Broadcast", "Broadcast intent 1")
+            if (intent?.action == "com.pbd.psi.ACTION_SEND") {
+                Log.d("Broadcast", "Broadcast intent 2")
+                val charPool: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+                val randomTitleValue = (10..15)
+                    .map { kotlin.random.Random.nextInt(0, charPool.size) }
+                    .map(charPool::get)
+                    .joinToString("")
+
+                val randomNominalValue = (1000..2000).random()
+                Log.d("Broadcast", "Received broadcast")
+                val intent2 = Intent(context, AddTransactionActivity::class.java).apply {
+                    putExtra("TITLE", randomTitleValue)
+                    putExtra("AMOUNT", randomNominalValue)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP // Clear all activities above AddTransactionActivity
+                }
+
+                startActivity(intent2)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        settingsBinding = FragmentSettingsBinding.inflate(layoutInflater)
+        val filter = IntentFilter("com.pbd.psi.ACTION_SEND")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(broadcastReceiver, filter, RECEIVER_EXPORTED)
+        }else {
+            registerReceiver(broadcastReceiver, filter)
+        }
         setContentView(binding.root)
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE)
@@ -73,6 +102,8 @@ class MainActivity : AppCompatActivity() {
 
         val serviceIntent = Intent(this, BackgroundService::class.java)
         startService(serviceIntent)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

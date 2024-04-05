@@ -4,6 +4,7 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -58,6 +59,19 @@ class AddTransactionActivity : AppCompatActivity() {
         categoryAdapter.setDropDownViewResource(R.layout.list_category)
         spinner.adapter = categoryAdapter
 
+        val title = intent.getStringExtra("TITLE")
+        val amount = intent.getIntExtra("AMOUNT", 0)
+
+        if (!title.isNullOrEmpty()) {
+            binding.titleInput.setText(title)
+        }
+
+        if (amount != 0) {
+            binding.amountInput.setText(amount.toString())
+        }
+
+
+        Log.d("Hasil Broadcast", "Title: $title, Nominal: $amount")
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
