@@ -5,6 +5,7 @@
     android:ellipsize="end"
     android:background="@drawable/spinner_list_holder"
     android:textColor="@color/primaryDarker"
+    android:textSize="15sp"
     android:maxLines="1"
     android:layout_height="48dp">
 

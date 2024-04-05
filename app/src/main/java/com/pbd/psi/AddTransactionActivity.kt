@@ -46,7 +46,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
     private  var  currentLatitude:Double = -6.8914937198875075
     private var currentLongitude: Double =  107.61066098027624
-    private var currentAddress: String =  "no found"
+    private var currentAddress: String =  "not found"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,21 +60,12 @@ class AddTransactionActivity : AppCompatActivity() {
 
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
-    }
-
-
-
-    override fun onStart() {
-        super.onStart()
-
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
             val locationTask: Task<Location> = fusedLocationClient.getLastLocation();
             locationTask.addOnSuccessListener {
                 currentLatitude = it.latitude
                 currentLongitude = it.longitude
-                Log.d("aku suka lokasi 1", "latitude${currentLatitude}, longitude${currentLongitude}")
             }.addOnFailureListener { exception ->
                 Toast.makeText(
                     applicationContext,
@@ -85,6 +76,11 @@ class AddTransactionActivity : AppCompatActivity() {
         } else {
             askLocationPermission()
         }
+
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         binding.backButtonAdd.setOnClickListener{
             finish()
