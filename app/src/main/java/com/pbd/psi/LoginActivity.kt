@@ -38,6 +38,23 @@ class LoginActivity : AppCompatActivity() {
 
         isLogin()
 
+        viewModel.authResult.observe(this) {
+            when (it) {
+                is BaseResponse.Success -> {
+                    val intentRecycle = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intentRecycle)
+                    finish()
+                }
+
+                is BaseResponse.Error -> {
+                    Toast.makeText(this, "Token expired", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    Toast.makeText(this, "Token expired", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
         viewModel.loginResult.observe(this) {
             when (it) {
                 is BaseResponse.Loading -> {
@@ -84,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(this, "Email and password must be filled", Toast.LENGTH_SHORT).show()
             return
         }
-        viewModel.loginUser(email, password)
+        viewModel.loginUser("13521099@std.stei.itb.ac.id", "password_13521099")
     }
 
     private fun isOnline(context: Context) {

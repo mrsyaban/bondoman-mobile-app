@@ -214,30 +214,39 @@ class ScanFragment : Fragment() {
                     if (responseBody != null) {
                         val responseString = responseBody.toString()
                         Log.d("ResponseString", "Response: $responseString")
-                        Toast.makeText(requireContext(), "Image uploaded successfully! Response: $responseString", Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(), "Image Successfully Uploaded!", Toast.LENGTH_LONG).show()
                         try {
-                            val scanData = parseScanData(responseString)
-                            for (item in scanData?.items?.items ?: emptyList()) {
-                                val curDate = Date()
-                                val transactionEntity = TransactionEntity(
-                                    0,
-                                    item.name,
-                                    Category.EXPENSE,
-                                    item.price.toInt() * item.qty,
-                                    curDate,
-                                    "location",
-                                    0.0,
-                                    0.0,
-                                )
-                                Log.d("jancok", "woyyyyyyyyyyyyyyy")
-                                viewModel.addTransaction(transactionEntity)
+                            val scanData = response.body()?.items?.items ?: emptyList()
+                            val namesBuilder = StringBuilder()
+                            var totalPrice = 0
+                            for (item in scanData) {
+                                namesBuilder.append(item.name)
+                                namesBuilder.append(", ")
+                                totalPrice += item.price.toInt() * item.qty
                             }
+                            val concatenatedNames = if (namesBuilder.isNotEmpty()) {
+                                namesBuilder.substring(0, namesBuilder.length - 2)
+                            } else {
+                                ""
+                            }
+                            val curDate = Date()
+                            val transactionEntity = TransactionEntity(
+                                0,
+                                concatenatedNames,
+                                Category.EXPENSE,
+                                totalPrice,
+                                curDate,
+                                "location",
+                                0.0,
+                                0.0
+                            )
+                            viewModel.addTransaction(transactionEntity)
                         } catch (e: Exception) {
                             Log.e("UploadError", "Error parsing response JSON", e)
                             Toast.makeText(requireContext(), "Error parsing response JSON", Toast.LENGTH_SHORT).show()
                         }
                     } else {
-                        Toast.makeText(requireContext(), "Image uploaded successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Image Successfully Uploaded!", Toast.LENGTH_SHORT).show()
                     }
                     previewMask()
                 } else {
@@ -255,16 +264,6 @@ class ScanFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    fun parseScanData(responseString: String): UploadRes? {
-        return try {
-            val jsonObject = JSONObject(responseString)
-            val gson = Gson()
-            gson.fromJson(jsonObject.toString(), UploadRes::class.java)
-        } catch (e: Exception) {
-            null
-        }
     }
 
     private fun isOnline(context: Context): Boolean{

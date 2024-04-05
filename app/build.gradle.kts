@@ -96,6 +96,9 @@ dependencies {
     //location
     implementation ("com.google.android.gms:play-services-location:21.2.0")
 
+    //xlsx
+    implementation("org.apache.poi:poi:5.1.0")
+    implementation("org.apache.poi:poi-ooxml:5.1.0")
 }
 
 kapt {
