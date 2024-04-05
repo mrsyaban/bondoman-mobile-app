@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +26,8 @@ import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.IndexedColors
 import org.apache.poi.ss.usermodel.VerticalAlignment
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
+import java.io.File
+import java.io.FileOutputStream
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -40,6 +43,7 @@ class SettingsFragment : Fragment() {
     private lateinit var sharedpreferences: SharedPreferences
     private lateinit var fileName: String
     private val viewModel: SettingsViewModel by viewModels()
+    private lateinit var fileUri : DocumentFile
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,13 +69,25 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnUploadHistory.setOnClickListener {
-            val email = sharedpreferences.getString(EMAIL, "")
-            val intentEmail = Intent(Intent.ACTION_SEND)
-            intentEmail.type = "text/plain"
-            intentEmail.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-            intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Upload History")
-            intentEmail.putExtra(Intent.EXTRA_TEXT, "Berikut ini laporan hasil transaksi akun $email :\n")
-            startActivity(Intent.createChooser(intentEmail, "Send Email"))
+
+
+
+            try {
+                val email = sharedpreferences.getString(EMAIL, "")
+                val intentEmail = Intent(Intent.ACTION_SEND)
+                intentEmail.type = "text/plain"
+                intentEmail.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+                intentEmail.putExtra(Intent.EXTRA_SUBJECT, "Upload History")
+                intentEmail.putExtra(Intent.EXTRA_TEXT, "Berikut ini laporan hasil transaksi akun $email :\n")
+                intentEmail.putExtra(Intent.EXTRA_STREAM, this.fileUri.uri)
+                intentEmail.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                startActivity(Intent.createChooser(intentEmail, "Send Email"))
+            }
+            catch (e: Exception) {
+                Log.e("Error", e.toString())
+                Toast.makeText(requireContext(), "Please save transaction file", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.btnSettings.setOnClickListener {
@@ -82,11 +98,11 @@ class SettingsFragment : Fragment() {
             builder.setItems(exportOptions) { _: DialogInterface?, which: Int ->
                 when (which) {
                     0 ->  {
-                        fileName = "transaction_data.xlsx"
+                        fileName = "transaction_"+sharedpreferences.getString(EMAIL, "")+".xlsx"
                         launchFilePicker()
                     }
                     1 -> {
-                        fileName = "transaction_data.xls"
+                        fileName = "transaction_"+sharedpreferences.getString(EMAIL, "")+"xls"
                         launchFilePicker()
                     }
                 }
@@ -148,13 +164,23 @@ class SettingsFragment : Fragment() {
                 dataRow.createCell(4).setCellValue(transaction.location ?: "")
             }
 
+//            val cacheDir = requireContext().cacheDir
+//            val cacheFile = File(cacheDir, "transaction.xlsx")
+//            val outputStreamCache = FileOutputStream(cacheFile)
+//            workbook.write(outputStreamCache)
+//            workbook.close()
+//            outputStreamCache.close()
+
+
             val file: DocumentFile
-            if(fileName === "transaction_data.xls"){
+            if(fileName === "transaction_"+sharedpreferences.getString(EMAIL, "")+".xls"){
                 file = directory.createFile("application/vnd.ms-excel", fileName)!!
             }else{
                 file = directory.createFile("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName)!!
             }
             val outputStream = requireContext().contentResolver.openOutputStream(file!!.uri)
+            this.fileUri= file
+            Log.d("File xlsx location", "File: $outputStream")
             workbook.write(outputStream)
             workbook.close()
             outputStream?.close()
@@ -164,4 +190,12 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "No transaction data available", Toast.LENGTH_SHORT).show()
         }
     }
+    private fun getFile(): File {
+        val fileName = "transaction_data"+sharedpreferences.getString(EMAIL, "")+".xlsx"
+        val dir = File(requireContext().cacheDir, "excel")
+        if (!dir.exists()) dir.mkdirs()
+        return File(dir, fileName)
+    }
+
+
 }
