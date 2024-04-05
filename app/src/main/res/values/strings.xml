@@ -59,4 +59,8 @@
 
     <!--    Settings-->
     <string name="setting_header">Setting</string>
+    <string name="randomize_transaction">Randomize Transaction</string>
+    <string name="download_history">Download History</string>
+    <string name="upload_history">Upload History</string>
+    <string name="logout_text">Log-Out</string>
 </resources>
