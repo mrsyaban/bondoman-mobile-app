@@ -28,6 +28,9 @@ class TransactionFragment : Fragment() {
     ): View {
         binding = FragmentTransactionBinding.inflate(inflater, container, false)
         viewModel.transactionList.observe(viewLifecycleOwner) { transItems ->
+            val balanceAmount = viewModel.getBalance().toString()
+            binding.balanceNominal.setText(balanceAmount)
+
             val transactions = requireNotNull(transItems) { "Transaction list is null" }
             val transList = ArrayList(transactions)
             transactionAdapter.transactionItems = transList

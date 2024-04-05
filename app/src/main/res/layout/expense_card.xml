@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/transaction_symbol"
         android:layout_width="46dp"
-        android:layout_height="match_parent"
+        android:layout_height="40dp"
         android:contentDescription="@string/transaction_fragment"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
