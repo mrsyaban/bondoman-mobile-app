@@ -1,9 +1,7 @@
 package com.pbd.psi.ui.transaction
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.pbd.psi.R
@@ -11,7 +9,9 @@ import com.pbd.psi.databinding.ExpenseCardBinding
 import com.pbd.psi.databinding.IncomeCardBinding
 import com.pbd.psi.room.Category
 import com.pbd.psi.room.TransactionEntity
-import java.lang.IllegalArgumentException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
 
@@ -52,14 +52,14 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
                 holder.bind(
                     transactionItems[position].id,
                     transactionItems[position].name,
-                    transactionItems[position].date.toString(),
+                    dateFormat(transactionItems[position].date),
                     transactionItems[position].amount
                 )
             is TransactionViewHolder.ExpenseViewHolder -> {
                 holder.bind(
                     transactionItems[position].id,
                     transactionItems[position].name,
-                    transactionItems[position].date.toString(),
+                    dateFormat(transactionItems[position].date),
                     transactionItems[position].amount,
                     transactionItems[position].location,
                     transactionItems[position].longitude,
@@ -67,6 +67,11 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
                 )
             }
         }
+    }
+
+    fun dateFormat(date: Date): String {
+        val formatter = SimpleDateFormat("dd MMMM, yyyy", Locale.CHINA)
+        return formatter.format(date)
     }
 
     override fun getItemCount(): Int = transactionItems.size

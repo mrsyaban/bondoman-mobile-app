@@ -44,14 +44,17 @@
     <string name="tambah">Tambah</string>
     <string name="title_hint">Nama</string>
     <string name="amount_hint">Nominal</string>
+    <string name="category">kategori</string>
 
     <!--    Transaction Detail-->
     <string name="detail_transaction">Detail Transaksi</string>
+    <string name="simpan">Simpan</string>
 
 
     <!--    Content Description-->
     <string name="back_button">Back</string>
     <string name="category_symbol">category</string>
+    <string name="delete">delete button</string>
 
     <!--    Settings-->
     <string name="setting_header">Setting</string>
