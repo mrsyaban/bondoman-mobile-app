@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorAccent">#FFC700</color>
+    <color name="colorAccentLight">#FFF455</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="hover">#A8A8A8</color>
+    <color name="selected_icon">#2567F9</color>
+    <color name="navbar_icon">#DADADA</color>
+    <color name="navbar_color">#D9D9D9</color>
+    <color name="primaryBlack">#121433</color>
+    <color name="primaryDarkest">#23265A</color>
+    <color name="primaryDarker">#343659</color>
+    <color name="primaryBlue">#2567F9</color>
+    <color name="primaryBlueLight">#447CF8</color>
+    <color name="fragmentBlue">#898989</color>
+    <color name="grey">#888888</color>
+    <color name="textGrey">#8E949A</color>
+    <color name="darkRed">#930000</color>
+    <color name="red">#DD0000</color>
+    <color name="lightRed">#DE7979</color>
+    <color name="darkGreen">#007F73</color>
+    <color name="green">#12E400</color>
+    <color name="lightGreen">#4CCD99</color>
 </resources>

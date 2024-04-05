@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/transactionFragment"
+        android:title="@string/navbar_transaction"
+        android:icon="@drawable/navbar_wallet"/>
+
+    <item
+        android:id="@+id/scanFragment"
+        android:title="@string/navbar_scan"
+        android:icon="@drawable/navbar_scan"/>
+
+    <item
+        android:id="@+id/twibbonFragment"
+        android:title="@string/navbar_twibbon"
+        android:icon="@drawable/navbar_twibbon" />
+
+    <item
+        android:id="@+id/graphFragment"
+        android:title="@string/navbar_graph"
+        android:icon="@drawable/navbar_chart"/>
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="@string/navbar_settings"
+        android:icon="@drawable/navbar_settings" />
+</menu>

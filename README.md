@@ -1,93 +1,132 @@
 # IF3210-2024-Android-PSI
+<h2 align="center">
+    Bondoman : Financial App in Android<br/>
+</h2>
+<hr>
 
+## Daftar Isi
+1. [Deskripsi Singkat](#deskripsi-singkat)
+2. [Penggunaan Library](#penggunaan-library)
+3. [Screenshots](#screenshots)
+4. [Pembagian Kerja](#pembagian-kerja)
+5. [Jam Kerja](#jam-kerja)
 
+<a name="deskripsi-singkat"></a>
 
-## Getting started
+## Diskripsi Singkat
+Aplikasi Bondoman adalah aplikasi yang dikembangkan untuk memenuhi tugas besar mata kuliah IF3210 Pemrograman Aplikasi pada Platform Khusus. Bondoman merupakan sebuah aplikasi berbasis Android dengan bahasa Kotlin yang dapat membantu kita untuk mengatur keuangan kita sehari-hari dengan fitur-fitur yang tersedia di dalamnya.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Fitur-fitur yang tersedia di dalam aplikasi Bondoman, antara lain:
+1. Header dan Navbar:
+    - Identifier untuk tiap halaman
+    - Navigasi antar halaman 
+2. Halaman Login:
+    - Masuk ke dalam aplikasi dengan menggunakan akun yang sudah terdaftar (Background Service)
+3. Halaman Settings:
+    - Men-generate transaksi secara random (Broadcast Receiver)
+    - Men-download data transaksi sebagai file *.xlsx atau *.xls
+    - Mengirim data transaksi melalui email (Intent G-Mail)
+    - Logout dari aplikasi
+4. Halaman Transakssi:
+    - Menampilkan daftar transaksi yang sudah dilakukan
+    - Menambahkan transaksi baru
+    - Menghapus transaksi yang sudah
+    - Mengedit transaksi yang sudah ada
+5. Halaman Scan Nota:
+    - Melakukan scan nota atau mengupload gambar nota
+6. Halaman Graf/Statistik:
+    - Menampilkan grafik / statistik dari transaksi yang sudah dilakukan
+7. Halaman Twibbon:
+    - Mengambil gambar dengan twibbon Bondoman
+    - Mengganti gambar twibbon yang hendak digunakan
+8. Halaman Offline:
+    - Menampilkan halaman offline apabila tidak terdeteksi ada koneksi internet
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+<a name="penggunaan-library"></a>
 
-## Add your files
+## Penggunaan Library
+Pada proses pengerjaannya, kami menggunakan beberapa library yang dapat membantu kami dalam mengembangkan aplikasi Bondoman. Berikut adalah daftar library yang kami gunakan:
+1. AndroidX Core KTX (androidx.core:core-ktx:1.12.0)
+2. AndroidX AppCompat (androidx.appcompat:appcompat:1.6.1)
+3. Material Components for Android (com.google.android.material:material:1.11.0)
+4. ConstraintLayout (androidx.constraintlayout:constraintlayout:2.1.4)
+5. AndroidX Lifecycle Extensions (androidx.lifecycle:lifecycle-livedata-ktx:2.4.0, androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0, androidx.lifecycle:lifecycle-runtime-ktx:2.4.0)
+6. AndroidX Camera (androidx.camera:camera-core:1.1.0, androidx.camera:camera-camera2:1.1.0, androidx.camera:camera-lifecycle:1.1.0, androidx.camera:camera-video:1.1.0, androidx.camera:camera-view:1.1.0, androidx.camera:camera-extensions:1.1.0)
+7. AndroidX Room (androidx.room:room-common:2.6.1, androidx.room:room-runtime:2.6.1, androidx.room:room-ktx:2.6.1)
+8. JUnit for testing (junit:junit:4.13.2)
+9. AndroidX Test Extensions (androidx.test.ext:junit:1.1.5)
+10. Espresso Core for UI testing (androidx.test.espresso:espresso-core:3.5.1)
+11. AndroidX Activity KTX (androidx.activity:activity-ktx)
+12. AndroidX Hilt Navigation Compose (androidx.hilt:hilt-navigation-compose:1.2.0)
+13. Retrofit for making HTTP requests (com.squareup.retrofit2:retrofit:2.9.0, com.squareup.retrofit2:converter-gson:2.9.0)
+14. OkHttp Logging Interceptor (com.squareup.okhttp3:logging-interceptor:4.9.3)
+15. AndroidX Navigation (androidx.navigation:navigation-fragment-ktx:2.7.7, androidx.navigation:navigation-ui-ktx:2.7.7)
+16. Dagger Hilt for dependency injection (com.google.dagger:hilt-android:2.51.1, com.google.dagger:hilt-compiler:2.51.1)
+17. MultiDex for handling apps with more than 64K methods (androidx.multidex:multidex:2.0.1)
+18. MPAndroidChart for displaying charts (com.github.PhilJay:MPAndroidChart:v3.1.0)
+19. Google Play Services Location (com.google.android.gms:play-services-location:21.2.0)
+20. Apache POI for working with Excel files (org.apache.poi:poi:5.1.0, org.apache.poi:poi-ooxml:5.1.0)
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+<a name="screenshots"></a>
 
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/vierifirdaus7/if3210-2024-android-psi.git
-git branch -M main
-git push -uf origin main
-```
+## Screenshots Aplikasi
+Berikut adalah beberapa tampilan dari aplikasi Bondoman:
+<p>
+  <img src="/screenshots/1.jpg/">
+  <p>Gambar 1. Splash Screen</p>
+  <nl>
+  <img src="/screenshots/2.jpg/">
+  <p>Gambar 2. Login</p>
+  <nl>
+  <img src="/screenshots/3.jpg/">
+  <p>Gambar 3. Twibbon - Versi 1</p>
+  <nl>
+  <img src="/screenshots/4.jpg/">
+  <p>Gambar 4. Twibbon - Versi 2</p>
+  <nl>
+  <img src="/screenshots/5.jpg/">
+  <p>Gambar 5. Twibbon - Versi 3</p>
+  <nl>
+  <img src="/screenshots/6.jpg/">
+  <p>Gambar 6. Daftar Transaksi</p>
+  <nl>
+    <img src="/screenshots/7.jpg/">
+  <p>Gambar 7. Tambah Transaksi</p>
+  <nl>
+  <img src="/screenshots/8.jpg/">
+  <p>Gambar 8. Update Transaksi</p>
+  <nl>
+  <img src="/screenshots/9.jpg/">
+  <p>Gambar 9. Scan</p>
+  <nl>
+  <img src="/screenshots/10.jpg/">
+  <p>Gambar 10. Graph</p>
+  <nl>
+  <img src="/screenshots/11.jpg/">
+  <p>Gambar 11. Settings</p>
+  <nl>
+  <img src="/screenshots/12.jpg/">
+  <p>Gambar 12. Intent Email</p>
+  <nl>
+  <img src="/screenshots/13.jpg/">
+  <p>Gambar 13. File *.xlsx</p>
+  <nl>
+</p>
 
-## Integrate with your tools
+<a name="pembagian-kerja"></a>
 
-- [ ] [Set up project integrations](https://gitlab.informatika.org/vierifirdaus7/if3210-2024-android-psi/-/settings/integrations)
+## Pembagian Kerja
+| Nama                        | NIM      | Pembagian Kerja                                                    |
+| --------------------------- | -------- | ------------------------------------------------------------------ |
+| Vieri Fajar Firdaus         | 13521099 | Login, Background Service, Graph, Intent Email, Broadcast Receiver |
+| Muhammad Rizky Sya'ban      | 13521119 | Transaksi (penambahan, penghapusan, update)                        |
+| Mohammad Rifqi Farhansyah   | 13521166 | Design, Scan, Twibbon, Download History (*.xlsx & .xls), Splash    |
 
-## Collaborate with your team
+<a name="jam-kera"></a>
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Jam Kerja
+| Nama                        | NIM      | Persiapan | Pengerjaan |
+| --------------------------- | -------- | --------- | ---------- |
+| Vieri Fajar Firdaus         | 13521099 | 24 Jam    | 50 Jam     |
+| Muhammad Rizky Sya'ban      | 13521119 | 24 Jam    | 50 Jam     |
+| Mohammad Rifqi Farhansyah   | 13521166 | 24 Jam    | 50 Jam     |
