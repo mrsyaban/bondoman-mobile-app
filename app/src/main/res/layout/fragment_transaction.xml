@@ -75,6 +75,7 @@
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/add"
             android:src="@drawable/add_icon"
             app:layout_constraintBottom_toBottomOf="@id/transaction_info"
             app:layout_constraintEnd_toEndOf="@id/transaction_info"
@@ -89,7 +90,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintBottom_toTopOf="@+id/transaction_list"
+        app:layout_constraintBottom_toTopOf="@+id/transaction_list_holder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transaction_info">
 

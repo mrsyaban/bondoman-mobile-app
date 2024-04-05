@@ -3,6 +3,7 @@ package com.pbd.psi.ui.transaction
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,8 @@ import com.pbd.psi.room.TransactionEntity
 
 sealed class TransactionViewHolder(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    var itemClickListener: ((view: View, item: Int) -> Unit)? = null
+    var itemClickListener: ((item: Int) -> Unit)? = null
+    var locationClickListener: ((latitude:Double, longitude:Double, location:String) -> Unit)? = null
 
     class ExpenseViewHolder(private val binding: ExpenseCardBinding) : TransactionViewHolder(binding){
         fun bind(id: Int,name: String, date: String, nominal: Int, location: String, longitude: Double, latitude: Double){
@@ -24,18 +26,12 @@ sealed class TransactionViewHolder(binding: ViewBinding) : RecyclerView.ViewHold
             binding.expenseNominal.text = "-Rp".plus(nominal.formatDecimalSeparator())
             binding.expenseLocation.text = location
             binding.expenseLocation.setOnClickListener {
-                val gmmIntentUri = Uri.parse("geo:0,0?q=" + latitude.toBigDecimal().toPlainString() + "," + longitude.toBigDecimal().toPlainString() + "(" + location +")")
-                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-                mapIntent.setPackage("com.google.android.apps.maps")
-                val locationContext = binding.expenseLocation.context
-                if (mapIntent.resolveActivity(locationContext.packageManager) != null) {
-                    locationContext.startActivity(mapIntent)
-                } else {
-                    Toast.makeText(locationContext, "Please install google maps to access location", Toast.LENGTH_SHORT).show();
-                }
+                Log.d("aku love", "lokkkkkaaasiii")
+                locationClickListener?.invoke(latitude, longitude, location)
             }
+
             binding.root.setOnClickListener {
-                itemClickListener?.invoke(it, id)
+                itemClickListener?.invoke(id)
             }
 
         }
@@ -47,7 +43,7 @@ sealed class TransactionViewHolder(binding: ViewBinding) : RecyclerView.ViewHold
             binding.incomeDate.text = date
             binding.incomeNominal.text = "Rp".plus(nominal.formatDecimalSeparator())
             binding.root.setOnClickListener {
-                itemClickListener?.invoke(it, id)
+                itemClickListener?.invoke(id)
             }
         }
     }

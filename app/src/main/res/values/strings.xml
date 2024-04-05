@@ -55,6 +55,7 @@
     <string name="back_button">Back</string>
     <string name="category_symbol">category</string>
     <string name="delete">delete button</string>
+    <string name="add">add button</string>
 
     <!--    Settings-->
     <string name="setting_header">Setting</string>
