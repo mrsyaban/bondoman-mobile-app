@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -20,6 +21,7 @@ class AddTransactionViewModel
         private val repository: TransactionRepository
     ) : ViewModel() {
     fun addTransaction(name: String, category: Category, amount: Int) = viewModelScope.launch {
+//        val curDate = android.icu.util.Calendar.getInstance(Locale.)
         val curDate = Date()
         val transaction = TransactionEntity(0, name, category, amount, curDate, "dummy location", 10.0, 10.0)
         repository.addTransaction(transaction)
