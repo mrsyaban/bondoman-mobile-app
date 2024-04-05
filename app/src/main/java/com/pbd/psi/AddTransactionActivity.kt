@@ -13,7 +13,6 @@ import android.widget.Spinner
 import android.widget.Toast
 import android.location.Geocoder
 import android.os.Build
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
