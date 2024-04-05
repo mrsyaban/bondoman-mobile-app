@@ -72,14 +72,44 @@ Pada proses pengerjaannya, kami menggunakan beberapa library yang dapat membantu
 ## Screenshots Aplikasi
 Berikut adalah beberapa tampilan dari aplikasi Bondoman:
 <p>
-  <img src="/screenshots/1.png/">
-  <p>Gambar 1.</p>
+  <img src="/screenshots/1.jpg/">
+  <p>Gambar 1. Splash Screen</p>
   <nl>
-  <img src="/screenshots/2.png/">
-  <p>Gambar 2.</p>
+  <img src="/screenshots/2.jpg/">
+  <p>Gambar 2. Login</p>
   <nl>
-  <img src="/screenshots/3.png/">
-  <p>Gambar 3.</p>
+  <img src="/screenshots/3.jpg/">
+  <p>Gambar 3. Twibbon - Versi 1</p>
+  <nl>
+  <img src="/screenshots/4.jpg/">
+  <p>Gambar 4. Twibbon - Versi 2</p>
+  <nl>
+  <img src="/screenshots/5.jpg/">
+  <p>Gambar 5. Twibbon - Versi 3</p>
+  <nl>
+  <img src="/screenshots/6.jpg/">
+  <p>Gambar 6. Daftar Transaksi</p>
+  <nl>
+    <img src="/screenshots/7.jpg/">
+  <p>Gambar 7. Tambah Transaksi</p>
+  <nl>
+  <img src="/screenshots/8.jpg/">
+  <p>Gambar 8. Update Transaksi</p>
+  <nl>
+  <img src="/screenshots/9.jpg/">
+  <p>Gambar 9. Scan</p>
+  <nl>
+  <img src="/screenshots/10.jpg/">
+  <p>Gambar 10. Graph</p>
+  <nl>
+  <img src="/screenshots/11.jpg/">
+  <p>Gambar 11. Settings</p>
+  <nl>
+  <img src="/screenshots/12.jpg/">
+  <p>Gambar 12. Intent Email</p>
+  <nl>
+  <img src="/screenshots/13.jpg/">
+  <p>Gambar 13. File *.xlsx</p>
   <nl>
 </p>
 
