@@ -22,7 +22,8 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
         notifyDataSetChanged()
     }
 
-    var itemClickListener: ((view: View,item: Int) -> Unit)? = null
+    var itemClickListener: ((item: Int) -> Unit)? = null
+    var locationClickListener: ((latitude:Double, longitude:Double, location:String) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         when(viewType){
@@ -65,6 +66,7 @@ class TransactionViewAdapter : RecyclerView.Adapter<TransactionViewHolder>() {
                     transactionItems[position].longitude,
                     transactionItems[position].latitude,
                 )
+                holder.locationClickListener = locationClickListener
             }
         }
     }

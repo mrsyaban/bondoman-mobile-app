@@ -1,18 +1,15 @@
 package com.pbd.psi
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.location.Address
+import android.location.Geocoder
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.pbd.psi.databinding.ActivityTransactionDetailBinding
 import com.pbd.psi.room.Category
 import com.pbd.psi.room.TransactionEntity
@@ -36,26 +33,28 @@ class TransactionDetailActivity : AppCompatActivity() {
         val itemId = intent.getIntExtra("id", -1)
         transactionInfo = viewModel.getTransById(itemId)
         transactionInfo.observe(this) { trans ->
-            displayData = trans
-            binding.updateName.setText(trans.name)
-            binding.updateAmount.setText(trans.amount)
-            binding.updateLocation.setText(trans.location)
-            if (trans.category == Category.EXPENSE) {
-                binding.updateCategory.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        applicationContext, R.drawable.expense_symbol
-                    )
-                )
+            if (trans != null) {
+                displayData = trans
+                updateUI(trans)
             } else {
-                binding.updateCategory.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        applicationContext, R.drawable.income_symbol
-                    )
-                )
+                finish()
             }
         }
-
     }
+
+    private fun updateUI(transaction: TransactionEntity) {
+        binding.updateName.setText(transaction.name)
+        binding.updateAmount.setText(transaction.amount.toString())
+        binding.updateLat.setText(transaction.latitude.toString())
+        binding.updateLon.setText(transaction.longitude.toString())
+        val drawableRes = if (transaction.category == Category.EXPENSE) {
+            R.drawable.expense_symbol
+        } else {
+            R.drawable.income_symbol
+        }
+        binding.updateCategory.setImageDrawable(AppCompatResources.getDrawable(applicationContext, drawableRes))
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -65,7 +64,46 @@ class TransactionDetailActivity : AppCompatActivity() {
         }
 
         binding.deleteButton.setOnClickListener {
-            viewModel.deleteTransaction(displayData)
+            try {
+                viewModel.deleteTransaction(displayData)
+                Toast.makeText(applicationContext, "Transaksi ${displayData.name} berhasil dihapus", Toast.LENGTH_SHORT).show()
+                finish()
+            } catch (e: Exception) {
+                Toast.makeText(applicationContext, "Gagal menghapus transaksi", Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.updateButton.setOnClickListener {
+            val updatedName = binding.updateName.text.toString()
+            val updatedNAmount = binding.updateAmount.text.toString().toInt()
+            val updatedLat = binding.updateLat.text.toString().toDouble()
+            val updatedLon = binding.updateLon.text.toString().toDouble()
+            val transUpdated = TransactionEntity(
+                displayData.id,
+                updatedName,
+                displayData.category,
+                updatedNAmount,
+                displayData.date,
+                displayData.location,
+                updatedLon,
+                updatedLat
+            )
+            try {
+
+                viewModel.updateTransaction(transUpdated)
+                Toast.makeText(
+                    applicationContext,
+                    "Transaksi ".plus(updatedName).plus(" berhasil diubah"),
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+            } catch (e: Exception) {
+                Toast.makeText(
+                    applicationContext,
+                    "Transaksi ".plus(updatedName).plus(" gagal diubah"),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
+
 }

@@ -20,10 +20,7 @@ class AddTransactionViewModel
     @Inject constructor(
         private val repository: TransactionRepository
     ) : ViewModel() {
-    fun addTransaction(name: String, category: Category, amount: Int) = viewModelScope.launch {
-//        val curDate = android.icu.util.Calendar.getInstance(Locale.)
-        val curDate = Date()
-        val transaction = TransactionEntity(0, name, category, amount, curDate, "dummy location", 10.0, 10.0)
+    fun addTransaction(transaction:TransactionEntity ) = viewModelScope.launch {
         repository.addTransaction(transaction)
     }
 }
