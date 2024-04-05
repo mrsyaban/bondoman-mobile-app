@@ -266,6 +266,16 @@ class ScanFragment : Fragment() {
         _binding = null
     }
 
+    override fun onResume() {
+        super.onResume()
+        startCamera()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cameraProvider?.unbindAll()
+    }
+
     private fun isOnline(context: Context): Boolean{
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
